@@ -1,0 +1,35 @@
+#spill {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 600px;
+    height: calc(600px - 150px);
+    border: green solid 1px;
+    font-size: 1em;
+    text-align: center;
+    padding-top: 150px;
+    color:white;
+}
+
+#spill.fresh {
+    color: blue;
+    font-size: 14em;
+    transition: 0.4s;
+}
+
+#forklaring {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 10px;
+    left: 650px;
+}
+
+#knapper {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 220px;
+    left: 650px;
+    border: blue solid 1px;
+}
