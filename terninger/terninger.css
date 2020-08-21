@@ -8,7 +8,7 @@
     font-size: 1em;
     text-align: center;
     padding-top: 150px;
-    color:white;
+    color:green;
 }
 
 #spill.fresh {
@@ -80,4 +80,14 @@
     left:68px;
     border: solid black 1px;
     box-shadow: inset 2px 2px 2px black;
+}
+
+/* Sirkelen i center blir mindre enn de andre - usikker på hvorfor.
+   Har skalert den opp til ca samme størrelse
+*/
+.dice.d3 {
+    background-image: 
+    radial-gradient(circle at 50% 50%, black 0%, black 3.9%, transparent 8%),
+    radial-gradient(circle at 20% 20%, black 0%, black 2.9%, transparent 5%),  
+    radial-gradient(circle at 80% 80%, black 0%, black 2.9%, transparent 5%);
 }

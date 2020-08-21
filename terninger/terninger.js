@@ -1,14 +1,14 @@
 // @ts-check
 
 function setup() {
-    let terning = 1;
     let btnRoll = document.getElementById("roll");
-    let divSpill = document.getElementById("spill");
+    let divT1 = document.getElementById("t1");
 
     btnRoll.addEventListener("click", rollDice);
 
     function rollDice() {
-        terning = Math.trunc(Math.random() * 6) + 1;
-        divSpill.innerHTML = String(terning);
+        let terning = Math.trunc(Math.random() * 6) + 1;
+        divT1.className = `dice d${terning}`;
+        divT1.innerHTML = String(terning);
     }
 }
