@@ -33,3 +33,51 @@
     left: 650px;
     border: blue solid 1px;
 }
+
+.dice {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border: solid gray 1px;
+  border-radius: 16px;
+  margin:12px;
+  box-shadow: 2px 2px 2px black;
+  background-color: rgba(245, 245, 220, 0.534);
+}
+
+.dice.d1:after {
+  position: absolute;
+  content: "";
+  display:block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  top:42px;
+  left:42px;
+  border: solid black 1px;
+  box-shadow: inset 2px 2px 2px black;
+}
+.dice.d2:after {
+    position: absolute;
+    content: "";
+    display:block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    top:18px;
+    left:18px;
+    border: solid black 1px;
+    box-shadow: inset 2px 2px 2px black;
+}
+.dice.d2:before {
+    position: absolute;
+    content: "";
+    display:block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    top:68px;
+    left:68px;
+    border: solid black 1px;
+    box-shadow: inset 2px 2px 2px black;
+}
