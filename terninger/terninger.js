@@ -1,14 +1,21 @@
 // @ts-check
 
 function setup() {
-    let terning = 1;
     let btnRoll = document.getElementById("roll");
-    let divSpill = document.getElementById("spill");
+    let terninger = document.querySelectorAll("dice-roll");
+    let antall = 0;
 
-    btnRoll.addEventListener("click", rollDice);
+    btnRoll.addEventListener("click", () => { antall=0; rollDice() });
 
     function rollDice() {
-        terning = Math.trunc(Math.random() * 6) + 1;
-        divSpill.innerHTML = String(terning);
+        let sum;
+        sum = 0;
+        antall++;
+        for (let t of terninger) {
+            t.setAttribute("roll", "yes");
+        }
+
+
+
     }
 }

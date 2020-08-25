@@ -35,6 +35,15 @@
 }
 
 .dice {
+  display: grid; 
+  grid-template-areas: 
+   "a b c"
+   "d e f"
+   "g h i"
+  ;
+  justify-self: center;
+  align-items: center;
+  padding:10px;
   position: relative;
   width: 100px;
   height: 100px;
@@ -45,39 +54,70 @@
   background-color: rgba(245, 245, 220, 0.534);
 }
 
-.dice.d1:after {
-  position: absolute;
-  content: "";
-  display:block;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  top:42px;
-  left:42px;
-  border: solid black 1px;
-  box-shadow: inset 2px 2px 2px black;
-}
-.dice.d2:after {
-    position: absolute;
-    content: "";
-    display:block;
-    width: 16px;
-    height: 16px;
+div.dice > div {
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    top:18px;
-    left:18px;
-    border: solid black 1px;
+    border:solid black 1px;
+    margin-left:12px;
     box-shadow: inset 2px 2px 2px black;
+    opacity: 0;
 }
-.dice.d2:before {
-    position: absolute;
-    content: "";
-    display:block;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    top:68px;
-    left:68px;
-    border: solid black 1px;
-    box-shadow: inset 2px 2px 2px black;
+
+div.dice > div:nth-child(1) {
+    grid-area: a;
+}
+div.dice > div:nth-child(2) {
+    grid-area: b;
+}
+div.dice > div:nth-child(3) {
+    grid-area: c;
+}
+div.dice > div:nth-child(4) {
+    grid-area: d;
+}
+div.dice > div:nth-child(5) {
+    grid-area: e;
+}
+div.dice > div:nth-child(6) {
+    grid-area: f;
+}
+div.dice > div:nth-child(7) {
+    grid-area: g;
+}
+div.dice > div:nth-child(8) {
+    grid-area: h;
+}
+div.dice > div:nth-child(9) {
+    grid-area: i;
+}
+
+div.dice.d1 > div:nth-child(5),
+
+div.dice.d2 > div:nth-child(1),
+div.dice.d2 > div:nth-child(9),
+
+div.dice.d3 > div:nth-child(5),
+div.dice.d3 > div:nth-child(1),
+div.dice.d3 > div:nth-child(9),
+
+div.dice.d4 > div:nth-child(1),
+div.dice.d4 > div:nth-child(3),
+div.dice.d4 > div:nth-child(7),
+div.dice.d4 > div:nth-child(9),
+
+div.dice.d5 > div:nth-child(1),
+div.dice.d5 > div:nth-child(3),
+div.dice.d5 > div:nth-child(5),
+div.dice.d5 > div:nth-child(7),
+div.dice.d5 > div:nth-child(9),
+
+div.dice.d6 > div:nth-child(1),
+div.dice.d6 > div:nth-child(3),
+div.dice.d6 > div:nth-child(4),
+div.dice.d6 > div:nth-child(6),
+div.dice.d6 > div:nth-child(7),
+div.dice.d6 > div:nth-child(9)
+{
+    opacity: 1;
 }
