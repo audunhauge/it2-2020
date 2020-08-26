@@ -121,7 +121,7 @@ class Dice extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         const mydice = this._root.querySelector("#dice");
-        let count = 10;
+        let count = 4;
         const rolling = () => {
             if (count > 0) {
                 count --;
@@ -139,7 +139,7 @@ class Dice extends HTMLElement {
             this.faceValue = Number(newValue);
         }
         if (name === "roll") {
-            count = 10;
+            count = 4;
             rolling();
         }
 
