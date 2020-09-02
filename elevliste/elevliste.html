@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,26 @@
     <link rel="stylesheet" href="elevliste.css">
     <script src="elevliste.js"></script>
 </head>
+
 <body>
-  <div id="elever"></div>
-  <div id="funnet"></div>
-  <div><button id="vis">Finn elev</button></div>
-  <script>
-      setup();
-  </script>
+    <div id="registrer">
+        <div>
+            <label>Skriv inn navn
+                <input type="text" id="navn">
+            </label>
+        </div>
+        <div>
+            <button id="lagre">
+                Lagre Elev
+            </button>
+        </div>
+    </div>
+    <div id="elever"></div>
+    <div id="funnet"></div>
+    <div><button id="vis">Finn elev</button></div>
+    <script>
+        setup();
+    </script>
 </body>
+
 </html>
