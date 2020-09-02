@@ -6,12 +6,17 @@ function setup() {
     let divElever = document.getElementById("elever");
     let divFunnet = document.getElementById("funnet");
     let inpNavn = document.getElementById("navn");
+    let inpLetefelt = document.getElementById("letefelt");
 
     let btnLagre = document.getElementById("lagre");
     btnLagre.addEventListener("click",lagreElev);
 
-    let btnVis = document.getElementById("vis");
-    btnVis.addEventListener("click", visElever);
+    let btnFinn = document.getElementById("finn");
+    btnFinn.addEventListener("click", finnElev);
+
+    function finnElev() {
+        let navn = inpLetefelt.value;
+    }
 
     function lagreElev() {
         // @ts-ignore
@@ -21,6 +26,9 @@ function setup() {
             return;
         }
         elevListe.push(navn);
+        // @ts-ignore
+        inpNavn.value = "";
+        inpNavn.focus();
         visElever();
     }
 
