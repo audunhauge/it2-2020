@@ -15,7 +15,17 @@ function setup() {
     btnFinn.addEventListener("click", finnElev);
 
     function finnElev() {
+        divFunnet.innerHTML = "";
+        // @ts-ignore
         let navn = inpLetefelt.value;
+        let antall = elevListe.length;
+        for (let i=0; i<antall; i += 1) {
+            let elev = elevListe[i];
+            if (elev.includes(navn)) {
+                divFunnet.innerHTML += elev + "<br>";
+                // break;
+            }
+        }
     }
 
     function lagreElev() {
