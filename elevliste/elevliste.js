@@ -12,12 +12,14 @@ const elevListe = [];
 function setup() {
     let divElever = document.getElementById("elever");
     let divFunnet = document.getElementById("funnet");
-    let inpFornavn = document.getElementById("fornavn");
-    let inpEtternavn = document.getElementById("etternavn");
-    let inpAdresse = document.getElementById("adresse");
-    let inpKlasse = document.getElementById("klasse");
-    let inpKontaktlerar = document.getElementById("kontaktlerar");
-    let inpLetefelt = document.getElementById("letefelt");
+    // forklarer vs-code at inpFornavn osv  er et HTMLInputElement, ikke et vanlig HTMLElement
+    // slipper da å skrive // @ts-ignore alle plasser hvor jeg bruker .value
+    let inpFornavn =      /**  @type {HTMLInputElement} */ (document.getElementById("fornavn"));
+    let inpEtternavn =    /**  @type {HTMLInputElement} */ (document.getElementById("etternavn"));
+    let inpAdresse =      /**  @type {HTMLInputElement} */ (document.getElementById("adresse"));
+    let inpKlasse =       /**  @type {HTMLInputElement} */ (document.getElementById("klasse"));
+    let inpKontaktlerar = /**  @type {HTMLInputElement} */ (document.getElementById("kontaktlerar"));
+    let inpLetefelt =     /**  @type {HTMLInputElement} */ (document.getElementById("letefelt"));
 
     let btnLagre = document.getElementById("lagre");
     btnLagre.addEventListener("click", lagreElev);
@@ -42,15 +44,10 @@ function setup() {
     }
 
     function lagreElev() {
-        // @ts-ignore
-        let fornavn = inpFornavn.value;
-        // @ts-ignore
+        let fornavn =  (inpFornavn.value);
         let etternavn = inpEtternavn.value;
-        // @ts-ignore
         let adresse = inpAdresse.value;
-        // @ts-ignore
         let klasse = inpKlasse.value;
-        // @ts-ignore
         let kontaktlerar = inpKontaktlerar.value;
         if (fornavn === "") {
             alert("Skriv ett gyldig navn");
