@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,17 @@
     <link rel="stylesheet" href="ballspill.css">
     <script src="ballspill.js"></script>
 </head>
+
 <body>
     <div id="brett"></div>
-    <div id="status"></div>
+    <div id="status">
+       <div><label>Skriv inn antall
+           <input type="text" id="antall" value="10"></label></div>
+        <div><button id="start">Start Spillet</button></div>
+    </div>
     <script>
         setup();
     </script>
 </body>
+
 </html>
