@@ -29,9 +29,23 @@ function setup() {
 }
 
 /**
+ * Finner det største tallet i en tabell (array)
+ * @param {Number[]} enArray - en liste med tall
+ * @returns {Number}
+ */
+function maximum(enArray) {
+   let m = enArray[0];  // antar at dette er størst
+   for (let i=0; i < enArray.length; i += 1) {
+       const t = enArray[i];
+       if (m > t) m = t;
+   }
+   return m;
+}
+
+/**
  * Beregner summen av en array
  * summer([1,2,3]) === 1+2+3
- * @param {Array<Number>} tallSerie
+ * @param {number[]} tallSerie
  * @returns {Number}
  */
 function summer(tallSerie) {
