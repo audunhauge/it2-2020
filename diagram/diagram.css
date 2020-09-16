@@ -3,3 +3,11 @@
     height: 400px;
     background-color: aqua;
 }
+
+.soyle {
+    height: 16px;
+    width: 100px;
+    background-color: blue;
+    border: solid gray 1px;
+    margin: 3px;
+}
