@@ -6,13 +6,23 @@ const tallListe = [];
 function setup() {
     const inpTallverdi =  /**  @type {HTMLInputElement} */
         (document.getElementById("tallverdi"));
-    const btnLagre = document.getElementById("lagre");
     const btnTegn = document.getElementById("tegn");
     const divTalldata = document.getElementById("talldata");
     const divDiagram = document.getElementById("diagram");
 
-    btnLagre.addEventListener("click", lagreData);
     btnTegn.addEventListener("click", tegnDiagram);
+    inpTallverdi.addEventListener("keyup", sjekkTall);
+
+    /**
+     * @param {KeyboardEvent} e
+     */
+    function sjekkTall(e) {
+        if (e.key === "Enter") {
+            lagreData();
+        }
+    }
+
+    let max;
 
     function lagreData() {
         const tall = inpTallverdi.valueAsNumber;
@@ -20,7 +30,7 @@ function setup() {
         inpTallverdi.value = "";
         inpTallverdi.focus();
         divTalldata.innerHTML = String(tallListe);
-        const max = maximum(tallListe);
+        max = maximum(tallListe);
         const sum = summer(tallListe);
         const min = minimum(tallListe);
         const snitt = gjennomsnitt(tallListe);
@@ -44,10 +54,13 @@ function setup() {
      * @returns {void}
      */
     function tegnSoyler(tabell) {
+        divDiagram.innerHTML = "";
         for (let i = 0; i < tabell.length; i += 1) {
-            const tall = tabell[i];
+            const tall = 490 * tabell[i] / max
             const divSoyle = document.createElement("div");
             divSoyle.className = "soyle";
+            divDiagram.append(divSoyle);
+            divSoyle.style.width = `${tall}px`;
         }
     }
 }
