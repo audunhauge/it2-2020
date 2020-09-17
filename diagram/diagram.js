@@ -80,7 +80,7 @@ function gjennomsnitt(tabell) {
 
 
 /**
- * Finner det største tallet i en tabell
+ * Finner det minste tallet i en tabell
  * @param {number[]} tabell
  * @returns {number}
  */
@@ -114,7 +114,7 @@ function maximum(tabell) {
 
 /**
  * Summerer tallene i en array
- * @param {string | any[]} tallSerie
+ * @param {number[]} tallSerie
  * @returns {number}
  */
 function summer(tallSerie) {
@@ -140,11 +140,65 @@ function median(tabell) {
 }
 
 
+/**  WARNINING ! ENTRATE VIETATO ! CAVE PERICULO ! ACHTUNG ! SE OPP
+ * Funksjonene under er ment for de som allerede kan programmere.
+ * Dersom du er nybegynner kan du kikke på dem, men merk at de
+ * bruker teknikker som vi ikke går gjennom før helt på slutten
+ * av kurset.
+ */
+
+
 /**
+ * Gir tilbake en liste av duplikate verdier
+ * duplikater([1,2,2,3,4,4,2,2,2,4,4,2,7]) => [2,4]
+ * Fordelen med denne er at koden er kort
+ * Ville valgt denne dersom tabell alltid vil ha n<1000
+ * og det er garantert at ikke brukes inne i en løkke
  * @param {number[]} tabell
  * @returns {number[]}
  */
 function duplikater(tabell) {
+    const dupdups = tabell.filter((e, i) => tabell.indexOf(e) !== i);
+    return Array.from(new Set(dupdups));
+    // dupdups kan inneholde [2,2,2,2,2,4,4]
+    // ved å kovertere til Set og tilbake forsvinner alle duplikater
+    // skal ikke ha duplikater i lista over duplikater
+}
 
-    return [];
+/**
+ * Denne gjør det samme som funksjonen over
+ * Fordelen med denne er at den er lettere å forstå
+ */
+function dupexplicit(tabell) {
+    const dups = [];  // tom liste med dups
+    for (let i = 0; i < tabell.length; i += 1) {
+        const e = tabell[i];
+        if (tabell.indexOf(e) !== i) {
+            // fant en duplikat
+            if (!dups.includes(e)) {
+                // den er ikke allerede lagret
+                dups.push(e);
+            }
+        }
+    }
+    return dups;
+}
+
+// samme som de over
+// men er raskere da tabell itereres bare en gang
+// O(n) betyr at tiden er prop med n elementer
+// O(1) tilnærma konstant tidsbruk (uavhengig av n)
+// oppslag i dupcount er O(1)
+// indexOf,includes er O(n)
+// de andre har O(n) inne i en løkke (filter er en løkke)
+function dupByobject(tabell) {
+    const dups = [];
+    const dupcount = {};
+    tabell.forEach(e => {
+        dupcount[e] = (dupcount[e] || 0) + 1;
+        if (dupcount[e] === 2) {
+            dups.push(e);
+        }
+    })
+    return dups;
 }
