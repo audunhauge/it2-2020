@@ -1,0 +1,41 @@
+#main {
+    position: relative;
+    width:600px;
+    height: 600px;
+    margin:20px;
+}
+#main > div {
+    border: solid gray 1px;
+}
+
+#board {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width:350px;
+    height: 350px;
+}
+
+#info {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    width:150px;
+    height: 400px;
+}
+#minimap {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width:150px;
+    height: 200px;
+}
+#status {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    width:400px;
+    height: 200px;
+}
+
+

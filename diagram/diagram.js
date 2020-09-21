@@ -127,14 +127,18 @@ function summer(tallSerie) {
 }
 
 
+
 /**
- * Finner medianverdien for en tallrekke
  * @param {number[]} tabell
- * @returns {number|undefined}
+ * @returns {number}
  */
 function median(tabell) {
     const kopi = tabell.slice();
-    kopi.sort((a, b) => a - b);
+    /**
+     * @param {number} a
+     * @param {number} b
+     */
+    kopi.sort(  (a, b) => a - b   );
     const midten = Math.trunc(tabell.length / 2);
     return kopi[midten];
 }
@@ -168,6 +172,7 @@ function duplikater(tabell) {
 /**
  * Denne gjør det samme som funksjonen over
  * Fordelen med denne er at den er lettere å forstå
+ * @param {string | any[]} tabell
  */
 function dupexplicit(tabell) {
     const dups = [];  // tom liste med dups
@@ -191,9 +196,15 @@ function dupexplicit(tabell) {
 // oppslag i dupcount er O(1)
 // indexOf,includes er O(n)
 // de andre har O(n) inne i en løkke (filter er en løkke)
+/**
+ * @param {any[]} tabell
+ */
 function dupByobject(tabell) {
     const dups = [];
     const dupcount = {};
+    /**
+     * @param {string | number} e
+     */
     tabell.forEach(e => {
         dupcount[e] = (dupcount[e] || 0) + 1;
         if (dupcount[e] === 2) {
