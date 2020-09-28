@@ -1,3 +1,10 @@
 body {
     background-color: aliceblue;
 }
+#registrer > div {
+    width: 40rem;
+}
+#registrer > div > label {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+}
