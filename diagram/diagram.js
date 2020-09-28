@@ -1,17 +1,28 @@
 // @ts-check
 
 
-const tallListe = [ ];
+const tallListe = [];
 
 function setup() {
     const inpTallverdi =  /**  @type {HTMLInputElement} */
         (document.getElementById("tallverdi"));
-    const btnLagre =document.getElementById("lagre");
     const btnTegn = document.getElementById("tegn");
     const divTalldata = document.getElementById("talldata");
+    const divDiagram = document.getElementById("diagram");
 
-    btnLagre.addEventListener("click", lagreData);
-    btnTegn.addEventListener("click",tegnSoyler);
+    btnTegn.addEventListener("click", tegnDiagram);
+    inpTallverdi.addEventListener("keyup", sjekkTall);
+
+    /**
+     * @param {KeyboardEvent} e
+     */
+    function sjekkTall(e) {
+        if (e.key === "Enter") {
+            lagreData();
+        }
+    }
+
+    let max;
 
     function lagreData() {
         const tall = inpTallverdi.valueAsNumber;
@@ -19,40 +30,186 @@ function setup() {
         inpTallverdi.value = "";
         inpTallverdi.focus();
         divTalldata.innerHTML = String(tallListe);
-        divTalldata.innerHTML += "<br> Summen er " + summer(tallListe);
-        divTalldata.innerHTML += "<br> Max er " + maximum(tallListe);
+        max = maximum(tallListe);
+        const sum = summer(tallListe);
+        const min = minimum(tallListe);
+        const snitt = gjennomsnitt(tallListe);
+        const med = median(tallListe);
+        divTalldata.innerHTML += `<br> Summen er ${sum}`;
+        divTalldata.innerHTML += `<br> Max er ${max}`;
+        divTalldata.innerHTML += `<br> Min er ${min}`;
+        const spenn = max - min;
+        const dupl = duplikater(tallListe);
+        divTalldata.innerHTML += `<br> Dynamisk spenn er ${spenn}`;
+        divTalldata.innerHTML += `<br> Gjennomsnitt er ${snitt}`;
+        divTalldata.innerHTML += `<br> Duplikater er ${dupl}`;
     }
 
-    function tegnSoyler() {
+    function tegnDiagram() {
+        tegnSoyler(tallListe);
+    }
 
+    /**
+     * @param {number[]} tabell
+     * @returns {void}
+     */
+    function tegnSoyler(tabell) {
+        divDiagram.innerHTML = "";
+        for (let i = 0; i < tabell.length; i += 1) {
+            const tall = 490 * tabell[i] / max
+            const divSoyle = document.createElement("div");
+            divSoyle.className = "soyle";
+            divDiagram.append(divSoyle);
+            divSoyle.style.width = `${tall}px`;
+        }
     }
 }
 
 /**
- * Finner det største tallet i en tabell (array)
- * @param {Number[]} enArray - en liste med tall
- * @returns {Number}
+ * Beregner gjennomsnitt av tallverdier i en tabell
+ * @param {number[]} tabell
+ * @returns {number|undefined}
  */
-function maximum(enArray) {
-   let m = enArray[0];  // antar at dette er størst
-   for (let i=0; i < enArray.length; i += 1) {
-       const t = enArray[i];
-       if (m > t) m = t;
-   }
-   return m;
+function gjennomsnitt(tabell) {
+    if (tabell.length === 0) {
+        return undefined;
+    }
+    const sum = summer(tabell);
+    return sum / tabell.length;
+}
+
+
+/**
+ * Finner det minste tallet i en tabell
+ * @param {number[]} tabell
+ * @returns {number}
+ */
+function minimum(tabell) {
+    let min = tabell[0];
+    for (let i = 1; i < tabell.length; i += 1) {
+        const tall = tabell[i];
+        if (tall < min) {
+            min = tall;
+        }
+    }
+    return min;
 }
 
 /**
- * Beregner summen av en array
- * summer([1,2,3]) === 1+2+3
+ * Finner det største tallet i en tabell
+ * @param {number[]} tabell
+ * @returns {number}
+ */
+function maximum(tabell) {
+    let max = tabell[0];
+    for (let i = 1; i < tabell.length; i += 1) {
+        const tall = tabell[i];
+        if (tall > max) {
+            max = tall;
+        }
+    }
+    return max;
+}
+
+
+/**
+ * Summerer tallene i en array
  * @param {number[]} tallSerie
- * @returns {Number}
+ * @returns {number}
  */
 function summer(tallSerie) {
     let sum = 0;
-    for (let i=0; i < tallSerie.length; i += 1) {
-       const tall = tallSerie[i];
-       sum += tall;
+    for (let i = 0; i < tallSerie.length; i += 1) {
+        const tall = tallSerie[i];
+        sum += tall;
     }
     return sum;
+}
+
+
+
+/**
+ * @param {number[]} tabell
+ * @returns {number}
+ */
+function median(tabell) {
+    const kopi = tabell.slice();
+    /**
+     * @param {number} a
+     * @param {number} b
+     */
+    kopi.sort(  (a, b) => a - b   );
+    const midten = Math.trunc(tabell.length / 2);
+    return kopi[midten];
+}
+
+
+/**  WARNINING ! ENTRATE VIETATO ! CAVE PERICULO ! ACHTUNG ! SE OPP
+ * Funksjonene under er ment for de som allerede kan programmere.
+ * Dersom du er nybegynner kan du kikke på dem, men merk at de
+ * bruker teknikker som vi ikke går gjennom før helt på slutten
+ * av kurset.
+ */
+
+
+/**
+ * Gir tilbake en liste av duplikate verdier
+ * duplikater([1,2,2,3,4,4,2,2,2,4,4,2,7]) => [2,4]
+ * Fordelen med denne er at koden er kort
+ * Ville valgt denne dersom tabell alltid vil ha n<1000
+ * og det er garantert at ikke brukes inne i en løkke
+ * @param {number[]} tabell
+ * @returns {number[]}
+ */
+function duplikater(tabell) {
+    const dupdups = tabell.filter((e, i) => tabell.indexOf(e) !== i);
+    return Array.from(new Set(dupdups));
+    // dupdups kan inneholde [2,2,2,2,2,4,4]
+    // ved å kovertere til Set og tilbake forsvinner alle duplikater
+    // skal ikke ha duplikater i lista over duplikater
+}
+
+/**
+ * Denne gjør det samme som funksjonen over
+ * Fordelen med denne er at den er lettere å forstå
+ * @param {string | any[]} tabell
+ */
+function dupexplicit(tabell) {
+    const dups = [];  // tom liste med dups
+    for (let i = 0; i < tabell.length; i += 1) {
+        const e = tabell[i];
+        if (tabell.indexOf(e) !== i) {
+            // fant en duplikat
+            if (!dups.includes(e)) {
+                // den er ikke allerede lagret
+                dups.push(e);
+            }
+        }
+    }
+    return dups;
+}
+
+// samme som de over
+// men er raskere da tabell itereres bare en gang
+// O(n) betyr at tiden er prop med n elementer
+// O(1) tilnærma konstant tidsbruk (uavhengig av n)
+// oppslag i dupcount er O(1)
+// indexOf,includes er O(n)
+// de andre har O(n) inne i en løkke (filter er en løkke)
+/**
+ * @param {any[]} tabell
+ */
+function dupByobject(tabell) {
+    const dups = [];
+    const dupcount = {};
+    /**
+     * @param {string | number} e
+     */
+    tabell.forEach(e => {
+        dupcount[e] = (dupcount[e] || 0) + 1;
+        if (dupcount[e] === 2) {
+            dups.push(e);
+        }
+    })
+    return dups;
 }
