@@ -18,8 +18,11 @@ function setup() {
      * @returns {number[]}  [ start, start+dx, ..., start+n*dx, ...,stop-dx, stop]
      */
     function linspace(start,stop,size) {
+        const X = [];
         const step = (stop-start)/size;
-        return new Array(Math.abs(Math.trunc(size))).fill(0).map((_,i) => start + i*step)
+        for (let x = start; x < stop; x += step) {
+            X.push(x);
+        }
     }
 
     const X = linspace(-2,2,400);
