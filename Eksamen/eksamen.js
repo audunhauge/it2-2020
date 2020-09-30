@@ -23,6 +23,7 @@ function setup() {
         for (let x = start; x < stop; x += step) {
             X.push(x);
         }
+        return X;
     }
 
     const X = linspace(-2,2,400);
