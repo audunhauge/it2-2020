@@ -28,7 +28,7 @@ function setup() {
 
     const X = linspace(-2,2,400);
     const Y = X.map(f);
-    for (let i=0; i<399; i++) {
+    for (let i=0; i<400; i++) {
         const d = document.createElement("div");
         d.className = "point";
         d.style.left = `${i}px`;
