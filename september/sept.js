@@ -1,15 +1,15 @@
 // @ts-check
 
 function setup() {
-    const divMain = document.getElementById("main");
+    // const divMain = document.getElementById("main");
     const divS = document.getElementById("s");
     const inpVekt = (document.getElementById("vekt"));
     const btnberegn = document.getElementById("beregn");
     btnberegn.addEventListener("click", beregnVansker);
 
     function beregnVansker() {
-        // @ts-ignore
         divS.className = "soyle";
+         // @ts-ignore
         const vekt = inpVekt.valueAsNumber;
         if (vekt < 0 || vekt > 250) {
             alert("Skriv en rimelig vekt!");

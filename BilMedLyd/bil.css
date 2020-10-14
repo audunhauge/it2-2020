@@ -1,0 +1,23 @@
+:root {
+    --imgsize: 200px;
+}
+
+#bil {  
+    position: absolute;
+    left: -300px;
+    top: 200px;
+    background-image: url("media/bil.png");
+    background-position-x: center;
+    background-size: contain;
+    width: var(--imgsize);
+    height: calc(var(--imgsize) * 0.6);
+    background-repeat: no-repeat;
+}
+
+#bil.aktiv {
+    animation: drive 2s;
+}
+
+@keyframes drive {
+    100% {  left: calc(100% + 20px); }
+}
