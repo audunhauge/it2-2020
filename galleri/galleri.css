@@ -14,8 +14,11 @@
   background-repeat: no-repeat;
 }
 
+#bilder > div.ontop {
+    z-index: 2;
+}
+
 #bilder > div.animert {
-  z-index: 2;
   animation: centerstage 3s linear, centerstage 3s 3s linear reverse;
 }
 
