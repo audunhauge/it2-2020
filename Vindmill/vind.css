@@ -4,7 +4,7 @@
     height: 500px;
 }
 
-#tower,#propell,#house,#tree {
+#tower,#propell,#hus,#tree {
     position: absolute;
 }
 
@@ -32,17 +32,18 @@
     height: 150px;
     background-image: url("propell.png");
     background-size: cover;
-    background-position-x: -10px;
-    background-position-y: -10px;
-    animation: roter 1s linear infinite;
-   transform-origin: 90px 75px;
+    background-repeat: no-repeat;
+    background-position-x: 5px;
+    background-position-y: 12px;
+    transform-origin: 90px 75px;
 }
-#house {
+#hus {
     left: 500px;
     bottom: 100px;
     width: 180px;
     height: 150px;
     background-color: black;
+    border:solid black 8px;
 }
 #tree {
     left: 760px;
@@ -54,4 +55,42 @@
 
 @keyframes roter {
     100% { transform: rotate(1turn);}
+}
+
+#propell.svak {
+    animation: roter 3s linear infinite;
+}
+
+
+#propell.middels {
+    animation: roter 2s linear infinite;
+}
+
+#propell.sterk {
+    animation: roter 0.8s linear infinite;
+}
+
+
+#propell.stille {
+    animation: none;
+}
+
+
+
+#hus.svak {
+    background-color: yellow;
+}
+
+
+#hus.middels {
+    background-color: lightgoldenrodyellow;
+}
+
+#hus.sterk {
+   background-color: white;
+}
+
+
+#hus.stille {
+    background-color: black;
 }
