@@ -38,7 +38,13 @@
 }
 #funk {}
 #operator {
-    
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) ;
+    width: 40%;
+    height: 20%;
+    position: absolute;
+    top: 13rem;
+    right: 10px;
 }
 
 .button {
