@@ -32,6 +32,7 @@ function setup() {
     function opererTall(e) {
         const t = e.target;
         if (t.className = "button") {
+            operator = t.innerHTML;
             minne = Number(divDisplay.innerHTML);
             nyttTall = true;
         }
