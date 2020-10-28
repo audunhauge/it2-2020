@@ -1,3 +1,6 @@
+body {
+    background-color: lightgray;
+}
 #generator {
     position: relative;
     width: 600px;
@@ -14,6 +17,7 @@
   width: 30px;
   height: 200px;
   background-color: gainsboro;
+  border: solid black 1px;
 }
 
 #center {
@@ -94,3 +98,12 @@
 #hus.stille {
     background-color: black;
 }
+
+
+#tree.sterk {
+    animation: svai 2s infinite alternate;
+ }
+
+ @keyframes svai {
+   100% { transform: rotate(12deg) translateX(12px); }
+ }
