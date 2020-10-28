@@ -1,0 +1,63 @@
+#calc {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    border: solid gray 1px;
+}
+#display {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    width: calc(100% - 22px);
+    height: 2.2rem;
+    border: solid gray 1px;
+    background-color: whitesmoke;
+}
+#ac, #erlik {
+    position: absolute;
+    width: 3rem;
+    height: 2rem;
+    top: 3rem;
+    right: 10px;
+}
+#ac {
+    line-height: 2.2rem;
+}
+#erlik {
+    top: calc(100% - 3rem);  
+    font-size: 1.5rem;
+}
+#tall {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) ;
+    width: 50%;
+    height: 40%;
+    position: absolute;
+    top: 3rem;
+    left: 10px;
+}
+#funk {}
+#operator {
+    
+}
+
+.button {
+    line-height: 1.8rem;
+    user-select: none;
+    text-align: center;
+    color:white;
+    width: 2.5rem;
+    height: 1.5rem;
+    background-color:gray;
+    border: solid gray 1px;
+    box-shadow: 2px 2px 2px black;
+    border-radius: 5px;
+}
+.button:hover {
+    background-color: lightgrey;
+    color:black;
+}
+.button:active {
+    box-shadow: none;
+    transform: translate(2px,2px);
+}
