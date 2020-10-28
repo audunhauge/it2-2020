@@ -6,13 +6,16 @@
 }
 
 #display {
+    font-size: 2rem;
     position: absolute;
     top: 5px;
     left: 10px;
     width: calc(100% - 22px);
     height: 2.2rem;
     border: solid gray 1px;
-    background-color: whitesmoke;
+    background-color: gray;
+    text-align: right;
+    color: greenyellow;
 }
 
 #ac,
