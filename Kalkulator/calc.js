@@ -3,27 +3,21 @@
 const $ = (id) => document.getElementById(id);
 
 function setup() {
-    {
-        const divTall = $("tall");
-        const symboler = "789456123-0.";
-        for (let i = 0; i < 12; i++) {
+
+    lageKnapper("tall", "789456123-0.".split(""));
+    lageKnapper("operator", "+-*/".split(""));
+    lageKnapper("funk", "sin,cos,tan".split(","));
+
+    function lageKnapper(id, symboler) {
+        const divRamme = $(id);
+        for (let i = 0; i < symboler.length; i++) {
             const div = document.createElement("div");
             div.className = "button";
-            divTall.append(div);
-            div.innerHTML = symboler.charAt(i);
+            divRamme.append(div);
+            div.innerHTML = symboler[i];
         }
     }
-    {
-        const divOperator = $("operator");
-        const symboler = "+-*/";
-        for (let i = 0; i < 4; i++) {
-            const div = document.createElement("div");
-            div.className = "button";
-            divOperator.append(div);
-            div.innerHTML = symboler.charAt(i);
-        }
-    }
-    
+
 
 
 }
