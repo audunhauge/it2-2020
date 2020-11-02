@@ -155,6 +155,9 @@ function setup() {
     const spanHexc =document.getElementById("hexc");
     const spanNamec =document.getElementById("namec");
     const spanNavn = document.getElementById("navn");
+    const spanHexb =document.getElementById("hexb");
+    const spanNameb =document.getElementById("nameb");
+    const spanNavnb = document.getElementById("navnb");
     const inpHex = document.getElementById("hex");
     const sjekkFarge = (e) => {
         if (e.key == 'Enter') {
@@ -166,14 +169,33 @@ function setup() {
                 let c;
                 // finner den første fargen som har større eller lik tallverdi for fargekoden
                 // det betyr at vi vektlegger rød > grønn > blå
-                // kan se på (r-r)**2 + (g-g)**2 + (b-b)** som mål på avstand
-                // velg den fargen som gir minst verdi for beregningen over
+                // Bør heller se på (r-r)**2 + (g-g)**2 + (b-b)** som mål på avstand
+                //  - velg den fargen som gir minst verdi for beregningen over
+                //  Har lagt til denne under - neste løkke
                 for (c of hexNameInt) {
                     if (c[2] >= rgb) break;
                 }
                 spanNavn.innerHTML = String(c[1]);
                 spanHexc.style.backgroundColor = "#" + v;
                 spanNamec.style.backgroundColor = "" + c[1];
+
+                // prøver med kvadrat av forskjeller
+                const [r,g,b] = [ parseInt(v.substr(0,2),16),parseInt(v.substr(2,2),16),parseInt(v.substr(4,2),16)];
+                let best = {diff:Number.MAX_VALUE};
+                for (c of hexNameInt) {
+                    const v = String(c[0]);
+                    // merk at må hoppe over "#" i starten av hexkoden
+                    const [rr,gg,bb] = [ parseInt(v.substr(1,2),16),parseInt(v.substr(3,2),16),parseInt(v.substr(5,2),16)];
+                    const diff = (rr-r)**2 + (gg-g)**2 + (b-bb)**2;
+                    if (best?.diff > diff) {
+                        best = {c,diff};
+                    }
+                }
+                spanNavnb.innerHTML = String(best.c[1]);
+                spanHexb.style.backgroundColor = "#" + v;
+                spanNameb.style.backgroundColor = "" + best.c[1];
+
+
             }
         }
             
