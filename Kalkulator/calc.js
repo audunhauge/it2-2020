@@ -148,13 +148,30 @@ function setup() {
     function sjekkTall(e) {
         const t = e.target;
         if (t.className === "button") {
+            const disp = divDisplay.innerHTML;
             if (nyttTall) {
                 minne = Number(divDisplay.innerHTML);
                 divDisplay.innerHTML = "";
             }
             nyttTall = false;
-            const verdi = t.innerHTML;
-            divDisplay.innerHTML += verdi;
+            const verdi = t.innerHTML;   
+            if (verdi === ".") {
+                if (disp.includes(".")) {
+                    return;
+                }
+            }
+            if (verdi === "-") {  
+                if (disp === "0") {
+                    return;
+                }
+                if (disp.includes("-")) {
+                    divDisplay.innerHTML = disp.substr(1);
+                } else {
+                    divDisplay.innerHTML = "-" + disp;
+                }
+            } else {
+                divDisplay.innerHTML += verdi;
+            }
         }
     }
 
