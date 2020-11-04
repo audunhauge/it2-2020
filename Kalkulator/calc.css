@@ -56,6 +56,28 @@
     right: 10px;
 }
 
+#mode {
+    width: 5rem;
+    height: 2rem;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 0.8rem;
+    background-color: khaki;
+}
+
+
+#specials {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 45%;
+    height: 20%;
+    position: absolute;
+    bottom: 2rem;
+    left: 10px;
+    font-size: 0.8rem;
+}
+
 #operator {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
