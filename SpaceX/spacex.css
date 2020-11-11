@@ -19,5 +19,46 @@
     width: 100%;
     height: 500px;
     background-color: lightcyan;
+}
 
+#tanker, #tanker > div {
+    position: absolute;
+}
+
+#tanker {
+   height: 60px;
+   left: 50%;
+}
+#front {
+    border: solid gray 1px;
+    background-color: thistle;
+    top:35px;
+    width: 30px;
+    height: 16px;
+}
+#tank {
+    border: solid gray 1px;
+    border-radius: 5px;
+    background-color: wheat;
+    top: 3px;
+    left: 30px;
+    width:130px;
+    height: 50px;
+}
+#hjul {
+    top: 50px;
+    display: grid;
+    grid-template-columns: repeat(16,1fr);
+    width: calc(16*10px);
+}
+#hjul > div{
+    border: solid black 1px;
+    width:8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: roll 1s linear reverse infinite;
+}
+
+@keyframes roll {
+    100% { transform: rotate(1turn);}
 }

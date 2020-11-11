@@ -1,0 +1,27 @@
+#main {
+    position: relative;
+    left: 20px;
+    border: solid 1px gray;
+    width: 400px;
+    height: 400px;
+}
+
+
+.rød    { background-color: red; }
+.grønn { background-color: green; }
+.blå    { background-color: blue; }
+
+#gui {}
+#hex {}
+#fargevis {}
+
+
+/*
+<div id="gui">
+<div><label>Skriv inn farger<input type="text" id="farge"></label></div>
+<div><button id="beregn">Klassifiser</button></div>
+</div>
+<div id="main">
+<div id="hex"></div>
+<div id="fargevis"></div>
+*/
