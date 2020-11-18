@@ -27,8 +27,13 @@
 
 #tanker {
    height: 60px;
-   left: 50%;
+   left: 101%;
+   bottom: 2rem;
 }
+#tanker.aktiv {
+   animation: drive linear 6s ;
+}
+
 #front {
     border: solid gray 1px;
     background-color: thistle;
@@ -61,4 +66,8 @@
 
 @keyframes roll {
     100% { transform: rotate(1turn);}
+}
+
+@keyframes drive {
+    100% { left: 300px; }
 }

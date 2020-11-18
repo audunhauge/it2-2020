@@ -50,10 +50,12 @@ function setup() {
     btnStart.addEventListener("click", startRakett);
 
     function startRakett() {
-        rakett.drivstoff = 10;
-        timer = setInterval(() => {
-            rakett.move();
-            rakett.render();
-        }, 200);
+        setTimeout(  () =>   {
+            rakett.drivstoff = 10;
+            timer = setInterval(() => {
+                rakett.move();
+                rakett.render();
+            }, 200);
+        }, 6000);
     }
 }
