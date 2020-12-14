@@ -25,12 +25,14 @@ function setup() {
     setInterval(() => {
         nisse.x += nisse.vx;
         nisse.render();
+
         if (nisse.x < 0) {
             nisse.vx = 5;
         }
-        if (nisse.x < 0) {
-            nisse.vx = 5;
+        if (nisse.x > 1050) {
+            nisse.vx = -5;
         }
+        
     }, 50);
 
 }
