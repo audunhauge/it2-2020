@@ -5,12 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tegn flytdiagram</title>
-    <script src="//unpkg.com/graphre/dist/graphre.js"></script>
-    <script src="//unpkg.com/nomnoml/dist/nomnoml.js"></script>
+    <script src="graphre.js"></script>
+    <script src="nomnoml.js"></script>
+    <script src="flyt.js"></script>
     <style>
         #main {
             display:grid;
-            grid-template-columns: 1fr 3fr;
+            grid-template-columns: 4fr 1fr 48fr;
+        }
+        .skjult {
+            display:none;
+        }
+        #skjul.skjult {
+            width:2px;
+            display:block;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -18,25 +27,16 @@
 <body>
     <div id="main">
         <div id="gui">
-            <textarea name="uml" id="uml" cols="30" rows="10"></textarea>
-            <div><label><button id="tegn">Tegn</button></label></div>
+            <textarea name="uml" id="uml" cols="60" rows="20"></textarea>
+            <div><label><button id="tegn">Tegn</button></label></div>      
         </div>
+        <div><label><button id="skjul">skjul/vis</button></label></div>
         <div id="drawing">
             <canvas id="diagram"></canvas>
         </div>
     </div>
     <script>
-        const s = `[a] -> [b]`;
-        const btnTegn = document.getElementById("tegn");
-        const txtUML = document.getElementById("uml");
-        txtUML.innerText = s;
-        const canvas = document.getElementById('diagram');
-        btnTegn.addEventListener("click", tegnDiagram);
-
-        function tegnDiagram() {
-            const source = txtUML.value;
-            nomnoml.draw(canvas, source);
-        }
+        setup();
     </script>
 
 </body>
