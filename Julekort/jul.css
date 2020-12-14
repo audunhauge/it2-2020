@@ -8,6 +8,19 @@
     background-repeat: no-repeat;
 }
 
+.spruce {
+    position: absolute;
+    width: 80px;
+    height: 150px;
+    left: 600px;
+    top:400px;
+    background-image: url("spruce.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /*animation: ride 10s linear forwards;*/
+}
+
 #santa {
     position: absolute;
     width: 150px;
