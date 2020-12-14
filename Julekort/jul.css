@@ -12,8 +12,16 @@
     position: absolute;
     width: 150px;
     height: 80px;
+    left: 1200px;
+    top:100px;
     background-image: url("santa.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    /*animation: ride 10s linear forwards;*/
 }
+/*
+@keyframes ride {
+    100% { left: -200px;}
+}
+*/
