@@ -31,10 +31,17 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    /*animation: ride 10s linear forwards;*/
 }
-/*
-@keyframes ride {
-    100% { left: -200px;}
+
+#gryla {
+    position: absolute;
+    width: 75px;
+    height: 80px;
+    left: 600px;
+    top:480px;
+    background-image: url("gryla.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: solid red 1px;
 }
-*/
