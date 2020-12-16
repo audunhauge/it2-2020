@@ -31,9 +31,9 @@ class Gran extends Nisse {
         super();
         this.y = 500;
         this.x = Math.random() * 1000 + 100;
-        this.w = 80;
-        this.h = 150;
         this.damage = Math.floor(Math.random()* 30 + 10);
+        this.w = (this.damage*2.5);
+        this.h = (this.damage*5);
         this.div = document.createElement("div");
         this.div.className = "spruce";
         divParent.append(this.div);
