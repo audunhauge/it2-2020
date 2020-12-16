@@ -24,7 +24,7 @@ class Nisse {
 
 class Gran extends Nisse {
     vy = 0;
-    aktiv = false;
+    status = "klar";
     constructor(divParent) {
         super();
         this.y = 500;
@@ -37,8 +37,8 @@ class Gran extends Nisse {
     }
 
     skyt() {
-        this.aktiv = true;
-        this.vy = -20;
+        this.status = "aktiv";
+        this.vy = -15;
     }
 
 }
@@ -72,7 +72,7 @@ function setup() {
             } break;
             case " ": {
                 for (let tre of skog) {
-                    if (tre.aktiv) continue;
+                    if (tre.status !== "klar") continue;
                     const avstand = Math.abs(gryla.x - tre.x);
                     if (avstand < 20) {
                         tre.skyt();
@@ -107,9 +107,12 @@ function setup() {
              flytt treet oppover med vy
         */
         for (let tre of skog) {
-            if (tre.aktiv) {
+            if (tre.status === "aktiv") {
                 tre.y += tre.vy;
                 tre.render();
+                if (tre.y < -200) {
+                    tre.status = "ferdig";
+                }
             }
         }
 
