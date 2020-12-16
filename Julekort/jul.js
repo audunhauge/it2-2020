@@ -1,8 +1,8 @@
 // @ts-check
 
 class Nisse {
-    x=1200;
-    y=100;
+    x = 1200;
+    y = 100;
     vx = -5;
     div;
 
@@ -28,7 +28,7 @@ class Gran extends Nisse {
     constructor(divParent) {
         super();
         this.y = 500;
-        this.x = Math.random()*1000 + 100;
+        this.x = Math.random() * 1000 + 100;
 
         this.div = document.createElement("div");
         this.div.className = "spruce";
@@ -54,7 +54,7 @@ function setup() {
     const gryla = new Nisse();
     gryla.x = 600;
     gryla.y = 480;
-    for (let i=0; i<20; i++) {
+    for (let i = 0; i < 20; i++) {
         const gran = new Gran(divSky);
         skog.push(gran);
         gran.render();
@@ -63,7 +63,7 @@ function setup() {
     gryla.div = document.getElementById("gryla");
 
     function styrSpillet(e) {
-        switch(e.key) {
+        switch (e.key) {
             case "ArrowLeft": {
                 gryla.x -= FART;
             } break;
@@ -72,8 +72,9 @@ function setup() {
             } break;
             case " ": {
                 for (let tre of skog) {
+                    if (tre.aktiv) continue;
                     const avstand = Math.abs(gryla.x - tre.x);
-                    if (avstand < 150) {
+                    if (avstand < 20) {
                         tre.skyt();
                         break;
                     }
@@ -105,12 +106,12 @@ function setup() {
           dersom tre er aktivt
              flytt treet oppover med vy
         */
-       for (let tre of skog) {
-        if (tre.aktiv) {
-            tre.y += tre.vy;
-            tre.render();
+        for (let tre of skog) {
+            if (tre.aktiv) {
+                tre.y += tre.vy;
+                tre.render();
+            }
         }
-    }
 
 
     }, 50);
