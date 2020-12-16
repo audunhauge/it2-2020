@@ -3,6 +3,8 @@
 class Nisse {
     x = 1200;
     y = 100;
+    w = 150;
+    h = 80;
     vx = -5;
     div;
 
@@ -29,10 +31,13 @@ class Gran extends Nisse {
         super();
         this.y = 500;
         this.x = Math.random() * 1000 + 100;
-
+        this.w = 80;
+        this.h = 150;
+        this.damage = Math.floor(Math.random()* 30 + 10);
         this.div = document.createElement("div");
         this.div.className = "spruce";
         divParent.append(this.div);
+        this.div.style.height = (this.damage*5) + "px";
 
     }
 
@@ -110,6 +115,18 @@ function setup() {
             if (tre.status === "aktiv") {
                 tre.y += tre.vy;
                 tre.render();
+                /**
+                 * dersom tre og nisse kolliderer
+                 *    da detter nissen ned 10px
+                 *    tre blir ferdig
+                 *    flytt tre ut av skjermen
+                 */
+                if (collisjon(tre,nisse)) {
+                    nisse.y += tre.damage;
+                    tre.status = "ferdig";
+                    tre.y = -200;
+                    tre.render();
+                }
                 if (tre.y < -200) {
                     tre.status = "ferdig";
                 }
@@ -119,4 +136,17 @@ function setup() {
 
     }, 50);
 
+}
+
+/**
+ * 
+ * @param { {x:number,y:number,w:number,h:number} } a 
+ * @param { {x:number,y:number,w:number,h:number} } b 
+ */
+
+function collisjon(a,b) {
+    return a.x > b.x - a.w &&
+           a.x < b.x + b.w &&
+           a.y > b.y - a.h &&
+           a.y < b.y + b.h
 }
