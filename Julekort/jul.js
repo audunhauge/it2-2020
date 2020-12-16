@@ -71,9 +71,11 @@ function setup() {
         switch (e.key) {
             case "ArrowLeft": {
                 gryla.x -= FART;
+                gryla.vx = -1;
             } break;
             case "ArrowRight": {
                 gryla.x += FART;
+                gryla.vx = 1;
             } break;
             case " ": {
                 for (let tre of skog) {
@@ -123,6 +125,13 @@ function setup() {
                  */
                 if (collisjon(tre,nisse)) {
                     nisse.y += tre.damage;
+                    /**
+                     * Dersom nissen er for langt nede
+                     *    da viser vi en alert("game over")
+                     */
+                    if (nisse.y > 400) {
+                        alert("You won! Game over");
+                    }
                     tre.status = "ferdig";
                     tre.y = -200;
                     tre.render();
