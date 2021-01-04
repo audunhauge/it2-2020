@@ -11,14 +11,27 @@ Senere kan du åpne mappa for klonen i vs-code og velge _pull_ fra git-menyen.
 Da vil du ha siste versjon av all kode fra undervisninge.
 
 
-## Oversikt - hvor finner du eksemplet du trenger
+## Oversikt - hva finnes i mappene
 
-### Enkelt skjema 
  *  **september**  
-   leser inn en vekt og sier om det lett/tung  
+   leser inn en vekt og sier om det er lett/tung  
  *  **fargenavn**  
    leser inn en farge(rød/blå) og gir hexkoden
+ *  **Canvas**  
+   Tegn figurer på canvas
+ *  **BilMedLyd**  
+   animasjon med lyd, start/stopp animasjon  
+ *  **BMI**  
+   enkelt skjema - vanlig oppg2 på eksamen
+ *  **Vindmill**  
+   oppg1 på eksamen - animer rotasjon  
+ *  **diagram**  
+   skjema for registrere tall, tegner søyler med div 
+ *  **BMI**  
+   enkelt skjema - vanlig oppg2 på eksamen
+ *  **isbre**  
+   oppg1 på eksamen - isbre som vokser, planter etterpå  
 
-### Søyler
+
 
 
