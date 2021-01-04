@@ -1,0 +1,46 @@
+#sky {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: url("jul.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.spruce {
+    position: absolute;
+    width: 80px;
+    height: 150px;
+    left: 600px;
+    top:400px;
+    background-image: url("spruce.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /*animation: ride 10s linear forwards;*/
+}
+
+#santa {
+    position: absolute;
+    width: 150px;
+    height: 80px;
+    left: 1200px;
+    top:100px;
+    background-image: url("santa.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#gryla {
+    position: absolute;
+    width: 75px;
+    height: 80px;
+    left: 600px;
+    top:480px;
+    background-image: url("gryla.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
