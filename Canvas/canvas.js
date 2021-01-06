@@ -84,15 +84,26 @@ function setup() {
   const ctx = canvas.getContext("2d");
   // kobling til tegnings-kontekst for canvas ctx = context
 
+  const selType = document.getElementById("type");
+
   canvas.addEventListener("click", registrerPunkt);
+
   addEventListener("toPunkt", tegn);
   function tegn() {
-    console.log("Tegner");
-    trekant(ctx, p1, p2);
+    const type = selType.value;
+    if (type === "sirkel") {
+      const radius = dist(p1, p2);
+      sirkel(ctx,p1,radius);
+    }
+    if (type === "firkant") {
+      firkant(ctx,p1,p2);
+    }
+    if (type === "trekant") {
+      trekant(ctx,p1,p2);
+    }
   }
-  const radius = dist(p1, p2);
-  sirkel(ctx, p1, radius);
-  // firkant(ctx,p1,p2);
-  trekant(ctx, p1, p2);
+
+  // clearRect(x,y,w,h)
+  
 
 }
