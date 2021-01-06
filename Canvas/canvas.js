@@ -56,8 +56,8 @@ function trekant(ctx, p1, p2) {
   ctx.stroke();
 }
 
-const p1 = {x:1,y:1};
-const p2 = {x:1,y:1};
+const p1 = { x: 1, y: 1 };
+const p2 = { x: 1, y: 1 };
 let antallPunkt = 0;
 
 
@@ -78,47 +78,21 @@ function registrerPunkt(e) {
 }
 
 
-
-
 function setup() {
   const canvas = /** @type {HTMLCanvasElement} */
     (document.getElementById("tegning"));
   const ctx = canvas.getContext("2d");
   // kobling til tegnings-kontekst for canvas ctx = context
 
-
   canvas.addEventListener("click", registrerPunkt);
-
-
   addEventListener("toPunkt", tegn);
-
   function tegn() {
     console.log("Tegner");
-    trekant(ctx,p1,p2);
+    trekant(ctx, p1, p2);
   }
-
-  //const p1 = { x: 100 + 10, y: 100 + 10 }
-  //const p2 = { x: 100 + 40, y: 100 + 50 }
   const radius = dist(p1, p2);
-
   sirkel(ctx, p1, radius);
-
   // firkant(ctx,p1,p2);
   trekant(ctx, p1, p2);
-
-
-
-
-
-  // cursor position javascript
-  /*
-  var cX = event.clientX;
-  var sX = event.screenX;
-  var cY = event.clientY;
-  var sY = event.screenY;
-  var coords1 = "client - X: " + cX + ", Y coords: " + cY;
-  var coords2 = "screen - X: " + sX + ", Y coords: " + sY;
-  */
-
 
 }
