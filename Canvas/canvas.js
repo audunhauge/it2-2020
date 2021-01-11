@@ -56,6 +56,21 @@ function trekant(ctx, p1, p2) {
   ctx.stroke();
 }
 
+function resistor(ctx,p1,p2) {
+  // henta denne fra MDN - søkte på canvas path mdn
+  // m x y <=> moveTo(x,y)
+  // l x y <=> lineTo(x,y)
+  // h x   => lineTo(x,0)
+  // v y   => lineTo(0,y)
+  //let p = new Path2D('M10 10 h 80 v 80 h -80 Z');
+  ctx.beginPath();
+  let p = new Path2D(
+    `M ${p1.x} ${p1.y} H 20 M 5 5 M 10 -10 M 10 10 M 10 -10 M 5 5 H 20`);
+  //------/\/\/-----
+  ctx.stroke(p);
+}
+
+
 const p1 = { x: 1, y: 1 };
 const p2 = { x: 1, y: 1 };
 let antallPunkt = 0;
@@ -91,6 +106,9 @@ function setup() {
   addEventListener("toPunkt", tegn);
   function tegn() {
     const type = selType.value;
+    if (type === "resistor") {
+      resistor(ctx,p1,p2);
+    }
     if (type === "sirkel") {
       const radius = dist(p1, p2);
       sirkel(ctx,p1,radius);
