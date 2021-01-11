@@ -65,8 +65,7 @@ function resistor(ctx,p1,p2) {
   //let p = new Path2D('M10 10 h 80 v 80 h -80 Z');
   ctx.beginPath();
   let p = new Path2D(
-    `M ${p1.x} ${p1.y} H 20 M 5 5 M 10 -10 M 10 10 M 10 -10 M 5 5 H 20`);
-  //------/\/\/-----
+    `M ${p1.x} ${p1.y} h 20 l 5 5  l 10 -10  l 10 10  l 10 -10  l 10 10  l 10 -10  l 5 5 h 20`);
   ctx.stroke(p);
 }
 
@@ -82,8 +81,8 @@ let antallPunkt = 0;
 function registrerPunkt(e) {
   p2.x = p1.x; p2.y = p1.y;
   const { offsetX, offsetY } = e;
-  p1.x = offsetX;
-  p1.y = offsetY;
+  p1.x = Math.round(offsetX/10) * 10;
+  p1.y = Math.round(offsetY/10) * 10;
   antallPunkt++;
   if (antallPunkt === 2) {
     const event = new Event('toPunkt');
