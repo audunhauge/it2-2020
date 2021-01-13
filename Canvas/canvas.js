@@ -65,7 +65,20 @@ function resistor(ctx,p1,p2) {
   //let p = new Path2D('M10 10 h 80 v 80 h -80 Z');
   ctx.beginPath();
   let p = new Path2D(
-    `M ${p1.x} ${p1.y} h 20 l 5 5  l 10 -10  l 10 10  l 10 -10  l 10 10  l 10 -10  l 5 5 h 20`);
+    `M ${p1.x} ${p1.y} h 20 l 2 5  l 4 -10  l 4 10  l 4 -10  l 4 10  l 4 -10  l 2 5 h 20`);
+  ctx.stroke(p);
+}
+
+function spole(ctx,p1,p2) {
+  // henta denne fra MDN - søkte på canvas path mdn
+  // m x y <=> moveTo(x,y)
+  // l x y <=> lineTo(x,y)
+  // h x   => lineTo(x,0)
+  // v y   => lineTo(0,y)
+  //let p = new Path2D('M10 10 h 80 v 80 h -80 Z');
+  ctx.beginPath();
+  let p = new Path2D(
+    `M ${p1.x} ${p1.y} h 10 t 2 -5 , 4 0 , 4 0, 4 0, 4 0, 4 0, 4 0, 4 0 l 2 5 h 10`);
   ctx.stroke(p);
 }
 
@@ -107,6 +120,9 @@ function setup() {
     const type = selType.value;
     if (type === "resistor") {
       resistor(ctx,p1,p2);
+    }
+    if (type === "spole") {
+      spole(ctx,p1,p2);
     }
     if (type === "sirkel") {
       const radius = dist(p1, p2);
