@@ -70,15 +70,18 @@ function resistor(ctx,p1,p2) {
 }
 
 function spole(ctx,p1,p2) {
-  // henta denne fra MDN - søkte på canvas path mdn
-  // m x y <=> moveTo(x,y)
-  // l x y <=> lineTo(x,y)
-  // h x   => lineTo(x,0)
-  // v y   => lineTo(0,y)
-  //let p = new Path2D('M10 10 h 80 v 80 h -80 Z');
   ctx.beginPath();
   let p = new Path2D(
     `M ${p1.x} ${p1.y} h 10 t 2 -5 , 4 0 , 4 0, 4 0, 4 0, 4 0, 4 0, 4 0 l 2 5 h 10`);
+  ctx.stroke(p);
+}
+
+
+function capacitor(ctx,p1,p2) {
+  ctx.beginPath();
+  const endx = Math.max(p1.x, p2.x+50);
+  let p = new Path2D(
+    `M ${p2.x} ${p2.y} h 20 m 0 -15 v 30 m 10 0 v -30 m 0 15 h 20 L ${endx} ${p2.y}`);
   ctx.stroke(p);
 }
 
@@ -123,6 +126,9 @@ function setup() {
     }
     if (type === "spole") {
       spole(ctx,p1,p2);
+    }
+    if (type === "capacitor") {
+      capacitor(ctx,p1,p2);
     }
     if (type === "sirkel") {
       const radius = dist(p1, p2);
