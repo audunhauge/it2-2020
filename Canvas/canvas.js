@@ -57,7 +57,7 @@ function trekant(ctx, p1, p2) {
 
 function resistor(ctx, p1, p2) {
   const path = new Path2D(
-    `M ${p2.x} ${p2.y} h 20 l 2 5  l 4 -10  l 4 10  l 4 -10  l 4 10  l 4 -10  l 2 5 h 20`
+    `M ${p2.x} ${p2.y} h 20 l 2 5  l 4 -10  l 4 10  l 4 -10  l 4 10  l 4 -10  l 2 5 h 16`
   );
   tegnKomponent(ctx, p1, p2, path);
 }
@@ -92,6 +92,7 @@ function tegnKomponent(ctx, p1, p2, path) {
   ctx.rotate(angle);
   ctx.translate(-p2.x, -p2.y);
   ctx.stroke(path);
+  ctx.stroke();
   ctx.restore();
 }
 
@@ -116,12 +117,27 @@ function registrerPunkt(e) {
   }
 }
 
+function tegnRutenett(ctx) {
+  ctx.beginPath()
+  ctx.strokeStyle = 'rgba(0,0,200,0.1)';
+  
+  ctx.stroke()
+}
+
 function setup() {
   const canvas =
     /** @type {HTMLCanvasElement} */
     (document.getElementById("tegning"));
-  const ctx = canvas.getContext("2d");
+  const bg =
+    /** @type {HTMLCanvasElement} */
+    (document.getElementById("bakgrunn"));
+  const ctxArk = canvas.getContext("2d");
   // kobling til tegnings-kontekst for canvas ctx = context
+
+  const ctxBG = bg.getContext("2d");
+  // tegner på bakgrunn
+
+  tegnRutenett(ctxBG);
 
   const selType = document.getElementById("type");
 
@@ -131,26 +147,26 @@ function setup() {
   function tegn() {
     const type = selType.value;
     if (type === "resistor") {
-      resistor(ctx, p1, p2);
+      resistor(ctxArk, p1, p2);
     }
     if (type === "ledning") {
-      ledning(ctx, p1, p2);
+      ledning(ctxArk, p1, p2);
     }
     if (type === "spole") {
-      spole(ctx, p1, p2);
+      spole(ctxArk, p1, p2);
     }
     if (type === "capacitor") {
-      capacitor(ctx, p1, p2);
+      capacitor(ctxArk, p1, p2);
     }
     if (type === "sirkel") {
       const radius = dist(p1, p2);
-      sirkel(ctx, p1, radius);
+      sirkel(ctxArk, p1, radius);
     }
     if (type === "firkant") {
-      firkant(ctx, p1, p2);
+      firkant(ctxArk, p1, p2);
     }
     if (type === "trekant") {
-      trekant(ctx, p1, p2);
+      trekant(ctxArk, p1, p2);
     }
   }
 
