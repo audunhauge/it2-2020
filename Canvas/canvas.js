@@ -1,5 +1,59 @@
 // @ts-check
 
+class Punkt {
+  /**
+   * @param {number} x
+   * @param {number} y
+   */
+  constructor(x,y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+class Komponent {
+  /**
+   * @param {Punkt} p1
+   * @param {Punkt} p2
+   * @param {string} type
+   * @param {number} verdi
+   */
+  constructor(p1,p2, type,verdi) {
+    this.p1 = p1;
+    this.p2 = p2;
+    this.type = type;
+    this.verdi = verdi;
+  }
+
+  tegnDeg(ctxArk) {
+    switch (this.type) {
+      case "resistor": {
+        resistor(ctxArk, p1, p2);
+      } break;
+      case "ledning": { 
+        ledning(ctxArk, p1, p2); 
+      } break;
+      case "spole": { 
+        spole(ctxArk, p1, p2); 
+      } break;
+      case "capacitor": { 
+        capacitor(ctxArk, p1, p2); 
+      } break;
+      case "jord": { 
+        jord(ctxArk, p1, p2)
+      } break;
+      case "plusspol": { 
+        //const volt = Number(inpVolt.value);
+        plusspol(ctxArk, p1, p2,this.verdi);
+      } break;
+    }
+  }
+}
+
+const komponentListe = [];
+
+
+
 const π = Math.PI; // kjekk å ha
 
 /**
@@ -68,6 +122,20 @@ function ledning(ctx, p1, p2) {
   ctx.stroke(path);
 }
 
+function jord(ctx, p1, p2) {
+  const path = new Path2D(`M ${p2.x} ${p2.y} 
+      h 20 m 0 -15 v 30 m 5 -25 v 20 m 5 -15 v 10
+      `);
+  tegnKomponent(ctx, p1, p2, path);
+}
+
+function plusspol(ctx, p1, p2, volt) {
+  const path = new Path2D(`M ${p2.x} ${p2.y} h 20`);
+  tegnKomponent(ctx, p1, p2, path);
+  ctx.strokeText(`(${volt}V)`, p2.x - 25, p2.y + 3);
+  sirkel(ctx,p2,3);
+}
+
 function spole(ctx, p1, p2) {
   const path = new Path2D(
     `M ${p2.x} ${p2.y} h 10 t 2 -5 , 4 0 , 4 0, 4 0, 4 0, 4 0, 4 0, 4 0 l 2 5 h 10`
@@ -120,19 +188,19 @@ function registrerPunkt(e) {
 function tegnRutenett(ctx) {
   ctx.beginPath()
   ctx.strokeStyle = 'rgba(0,0,200,0.1)';
-  /*
-  lag en for løkke i=0..39
-    // tegn en horisontal linje
-    move to (0, 10*i)
-    line to (400, 10*i)
-    // tegn en vertikal linje
-    move to (10*i,0)
-    line to (10*i,400)
-*/
+  for (let i=0; i<40; i++) {
+    const i10 = 10*i;
+    ctx.moveTo(0,i10);
+    ctx.lineTo(400,i10);
+    ctx.moveTo(i10,0);
+    ctx.lineTo(i10,400);
+  }
   ctx.stroke()
 }
 
 function setup() {
+  const lblVolt = document.getElementById("volt");
+  const inpVolt = document.querySelector("#volt > input");
   const canvas =
     /** @type {HTMLCanvasElement} */
     (document.getElementById("tegning"));
@@ -149,34 +217,30 @@ function setup() {
 
   const selType = document.getElementById("type");
 
+  selType.addEventListener("change", visEkstra);
+
+  function visEkstra() {
+    const type = selType.value;
+    if (type === "plusspol") {
+      lblVolt.style.opacity = "1";
+    } else {
+      lblVolt.style.opacity = "0";
+    }
+  }
+
   canvas.addEventListener("click", registrerPunkt);
 
   addEventListener("toPunkt", tegn);
   function tegn() {
     const type = selType.value;
-    if (type === "resistor") {
-      resistor(ctxArk, p1, p2);
-    }
-    if (type === "ledning") {
-      ledning(ctxArk, p1, p2);
-    }
-    if (type === "spole") {
-      spole(ctxArk, p1, p2);
-    }
-    if (type === "capacitor") {
-      capacitor(ctxArk, p1, p2);
-    }
-    if (type === "sirkel") {
-      const radius = dist(p1, p2);
-      sirkel(ctxArk, p1, radius);
-    }
-    if (type === "firkant") {
-      firkant(ctxArk, p1, p2);
-    }
-    if (type === "trekant") {
-      trekant(ctxArk, p1, p2);
+    const komp = new Komponent(p1,p2,type,12);
+    //const inpVolt = document.querySelector("#volt > input");
+    komponentListe.push(komp);
+    ctxArk.clearRect(0,0,400,400);
+    for (let i=0; i< komponentListe.length ; i++) {
+      const komp = komponentListe[i];
+      komp.tegnDeg(ctxArk);
     }
   }
 
-  // clearRect(x,y,w,h)
 }
