@@ -19,13 +19,14 @@ class Komponent {
    * @param {number} verdi
    */
   constructor(p1,p2, type,verdi) {
-    this.p1 = p1;
-    this.p2 = p2;
+    this.p1 = {x:p1.x,y:p1.y};
+    this.p2 = {x:p2.x,y:p2.y};
     this.type = type;
     this.verdi = verdi;
   }
 
   tegnDeg(ctxArk) {
+    const {p1,p2} = this;
     switch (this.type) {
       case "resistor": {
         resistor(ctxArk, p1, p2);
@@ -236,6 +237,10 @@ function setup() {
     const komp = new Komponent(p1,p2,type,12);
     //const inpVolt = document.querySelector("#volt > input");
     komponentListe.push(komp);
+    tegnListe();
+  }
+
+  function tegnListe() {
     ctxArk.clearRect(0,0,400,400);
     for (let i=0; i< komponentListe.length ; i++) {
       const komp = komponentListe[i];
