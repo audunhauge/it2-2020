@@ -5,11 +5,23 @@ class Punkt {
    * @param {number} x
    * @param {number} y
    */
-  constructor(x,y) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
   }
 }
+
+const komponentInfo = {
+  resistor: { p: ` h 20 l 2 5  l 4 -10  l 4 10  l 4 -10  l 4 10  l 4 -10  l 2 5 h 16`, l: 60 },
+  capacitor: { p: ` h 20 m 0 -15 v 30 m 10 0 v -30 m 0 15 h 20`, l: 50 },
+  spole: { p: ` h 10 t 2 -5 , 4 0 , 4 0, 4 0, 4 0, 4 0, 4 0, 4 0 l 2 5 h 10`, l: 50 },
+  jord: { p: ` h 20 m 0 -15 v 30 m 5 -25 v 20 m 5 -15 v 10`, l: 50, j:false },
+  plusspol: { p: `h 20`, l: 50},
+  ledning: { p: ``, l: 0, j: false },
+}
+
+const komponentNavn = Object.keys(komponentInfo);
+
 
 class Komponent {
   /**
@@ -18,37 +30,56 @@ class Komponent {
    * @param {string} type
    * @param {number} verdi
    */
-  constructor(p1,p2, type,verdi) {
-    this.p1 = {x:p1.x,y:p1.y};
-    this.p2 = {x:p2.x,y:p2.y};
+  constructor(p1, p2, type, verdi) {
+    this.p1 = { x: p1.x, y: p1.y };
+    this.p2 = { x: p2.x, y: p2.y };
     this.type = type;
     this.verdi = verdi;
   }
 
-  tegnDeg(ctxArk) {
-    const {p1,p2} = this;
-    switch (this.type) {
-      case "resistor": {
-        resistor(ctxArk, p1, p2);
-      } break;
-      case "ledning": { 
-        ledning(ctxArk, p1, p2); 
-      } break;
-      case "spole": { 
-        spole(ctxArk, p1, p2); 
-      } break;
-      case "capacitor": { 
-        capacitor(ctxArk, p1, p2); 
-      } break;
-      case "jord": { 
-        jord(ctxArk, p1, p2)
-      } break;
-      case "plusspol": { 
-        //const volt = Number(inpVolt.value);
-        plusspol(ctxArk, p1, p2,this.verdi);
-      } break;
-    }
+  tegnDeg(ctx) {
+    const { p1, p2, type } = this;
+    const { p, l, j = true } = komponentInfo[type];
+    const start = `M ${p2.x} ${p2.y} `;
+    const path = p;
+    const minw = l;
+    const joinup = j;
+    tegnKomponent(ctx, p1, p2, start, path, minw, joinup);
   }
+}
+
+class PPol extends Komponent {
+  tegnDeg(ctx) {
+    super.tegnDeg(ctx);
+    const { p1, p2, type } = this;
+    ctx.strokeText(`(${this.verdi}V)`, p2.x - 35, p2.y + 3);
+    sirkel(ctx, p2, 3);
+  }
+}
+
+/**
+ * Tegner en komponent fra p1 til p2
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {Punkt} p1
+ * @param {Punkt} p2
+ * @param {string} startPos
+ * @param {string[]} pathCmds
+ * @param {boolean} joinup  true dersom det skal være linje p1-p2
+ */
+function tegnKomponent(ctx, p1, p2, startPos, pathCmds, plengde = 50, joinup = true) {
+  const dx = p1.x - p2.x;
+  const dy = p1.y - p2.y;
+  const angle = Math.atan2(dy, dx);
+  const missing = Math.max(0, dist(p1, p2) - plengde) / 2;
+  const path = new Path2D(startPos + ` h ${missing}` + pathCmds + ` h ${missing}`);
+  ctx.beginPath();
+  ctx.save();
+  ctx.translate(p2.x, p2.y);
+  ctx.rotate(angle);
+  ctx.translate(-p2.x, -p2.y);
+  ctx.stroke(path);
+  ctx.stroke();
+  ctx.restore();
 }
 
 const komponentListe = [];
@@ -110,64 +141,11 @@ function trekant(ctx, p1, p2) {
   ctx.stroke();
 }
 
-function resistor(ctx, p1, p2) {
-  const path = new Path2D(
-    `M ${p2.x} ${p2.y} h 20 l 2 5  l 4 -10  l 4 10  l 4 -10  l 4 10  l 4 -10  l 2 5 h 16`
-  );
-  tegnKomponent(ctx, p1, p2, path);
-}
-
-function ledning(ctx, p1, p2) {
-  const path = new Path2D(`M ${p2.x} ${p2.y} L ${p1.x} ${p1.y}`);
-  ctx.beginPath();
-  ctx.stroke(path);
-}
-
-function jord(ctx, p1, p2) {
-  const path = new Path2D(`M ${p2.x} ${p2.y} 
-      h 20 m 0 -15 v 30 m 5 -25 v 20 m 5 -15 v 10
-      `);
-  tegnKomponent(ctx, p1, p2, path);
-}
-
-function plusspol(ctx, p1, p2, volt) {
-  const path = new Path2D(`M ${p2.x} ${p2.y} h 20`);
-  tegnKomponent(ctx, p1, p2, path);
-  ctx.strokeText(`(${volt}V)`, p2.x - 25, p2.y + 3);
-  sirkel(ctx,p2,3);
-}
-
-function spole(ctx, p1, p2) {
-  const path = new Path2D(
-    `M ${p2.x} ${p2.y} h 10 t 2 -5 , 4 0 , 4 0, 4 0, 4 0, 4 0, 4 0, 4 0 l 2 5 h 10`
-  );
-  tegnKomponent(ctx, p1, p2, path);
-}
-
-function capacitor(ctx, p1, p2) {
-  const path = new Path2D(
-    `M ${p2.x} ${p2.y} h 20 m 0 -15 v 30 m 10 0 v -30 m 0 15 h 20`
-  );
-  tegnKomponent(ctx, p1, p2, path);
-}
-
-function tegnKomponent(ctx, p1, p2, path) {
-  const dx = p1.x - p2.x;
-  const dy = p1.y - p2.y;
-  const angle = Math.atan2(dy, dx);
-  ctx.beginPath();
-  ctx.save();
-  ctx.translate(p2.x, p2.y);
-  ctx.rotate(angle);
-  ctx.translate(-p2.x, -p2.y);
-  ctx.stroke(path);
-  ctx.stroke();
-  ctx.restore();
-}
 
 const p1 = { x: 1, y: 1 };
 const p2 = { x: 1, y: 1 };
 let antallPunkt = 0;
+let mustJoin = false;  // true dersom vi må velge et eksisterende punkt
 
 /**
  * @param {MouseEvent} e
@@ -178,6 +156,15 @@ function registrerPunkt(e) {
   const { offsetX, offsetY } = e;
   p1.x = Math.round(offsetX / 10) * 10;
   p1.y = Math.round(offsetY / 10) * 10;
+  if (antallPunkt === 0 && mustJoin) {
+    // dette er første  punkt og vi MÅ koble til punkt
+    // som finnes fra før
+    // går gjennom alle komponenter og sjekker om p2 finnes i lista
+    if (!komponentListe.some(k => k.p1.x === p1.x && k.p1.y === p1.y ||
+      k.p2.x === p1.x && k.p2.y === p1.y)) {
+        return;  // ignore this point
+    }
+  }
   antallPunkt++;
   if (antallPunkt === 2) {
     const event = new Event("toPunkt");
@@ -189,19 +176,38 @@ function registrerPunkt(e) {
 function tegnRutenett(ctx) {
   ctx.beginPath()
   ctx.strokeStyle = 'rgba(0,0,200,0.1)';
-  for (let i=0; i<40; i++) {
-    const i10 = 10*i;
-    ctx.moveTo(0,i10);
-    ctx.lineTo(400,i10);
-    ctx.moveTo(i10,0);
-    ctx.lineTo(i10,400);
+  for (let i = 0; i < 40; i++) {
+    const i10 = 10 * i;
+    ctx.moveTo(0, i10);
+    ctx.lineTo(400, i10);
+    ctx.moveTo(i10, 0);
+    ctx.lineTo(i10, 400);
   }
   ctx.stroke()
 }
 
+/**
+ * Oppstart av komponent-editoren
+ * Sørger for at vi bare kan velge plusspol eller jord ved oppstart
+ */
 function setup() {
   const lblVolt = document.getElementById("volt");
-  const inpVolt = document.querySelector("#volt > input");
+  const btnAngre = document.getElementById("angre");
+  const selType = document.getElementById("type");
+
+  // seltype skal bare vise jord/plusspol ved start
+  selType.innerHTML = "jord,plusspol".split(",").map(e => `<option>${e}</option>`).join("");
+
+  selType.addEventListener("change", visEkstra);
+  btnAngre.addEventListener("click", undoLast);
+
+  function undoLast() {
+    if (komponentListe.length > 0) {
+      komponentListe.pop();
+      tegnListe();
+    }
+  }
+
   const canvas =
     /** @type {HTMLCanvasElement} */
     (document.getElementById("tegning"));
@@ -216,9 +222,6 @@ function setup() {
 
   tegnRutenett(ctxBG);
 
-  const selType = document.getElementById("type");
-
-  selType.addEventListener("change", visEkstra);
 
   function visEkstra() {
     const type = selType.value;
@@ -234,15 +237,21 @@ function setup() {
   addEventListener("toPunkt", tegn);
   function tegn() {
     const type = selType.value;
-    const komp = new Komponent(p1,p2,type,12);
-    //const inpVolt = document.querySelector("#volt > input");
+    const inpVolt = document.querySelector("#volt > input");
+    const verdi = Number(inpVolt.value);
+    // spesialtilfelle for plusspol - lager da en PPol som er
+    // en utvida komponent
+    const komp = (type === 'plusspol') ?
+      new PPol(p1, p2, type, verdi) : new Komponent(p1, p2, type, verdi);
     komponentListe.push(komp);
     tegnListe();
+    selType.innerHTML = komponentNavn.map(e => `<option>${e}</option>`).join("");
+    mustJoin = true;  // fra nå må vi koble sammen
   }
 
   function tegnListe() {
-    ctxArk.clearRect(0,0,400,400);
-    for (let i=0; i< komponentListe.length ; i++) {
+    ctxArk.clearRect(0, 0, 400, 400);
+    for (let i = 0; i < komponentListe.length; i++) {
       const komp = komponentListe[i];
       komp.tegnDeg(ctxArk);
     }
