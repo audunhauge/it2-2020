@@ -167,7 +167,7 @@ function registrerPunkt(e) {
   p1.y = Math.round(offsetY / 10) * 10;
   antallPunkt++;
   if (antallPunkt > 1) {
-    if (! mustJoin || (knownPoint(p1) || knownPoint(p2))) {
+    if (!mustJoin || (knownPoint(p1) || knownPoint(p2))) {
       const event = new Event("toPunkt");
       dispatchEvent(event);
     }
@@ -184,6 +184,18 @@ function tegnRutenett(ctx) {
     ctx.lineTo(400, i10);
     ctx.moveTo(i10, 0);
     ctx.lineTo(i10, 400);
+  }
+  ctx.stroke()
+}
+
+function tegnSirkler(ctx) {
+  ctx.beginPath()
+  ctx.strokeStyle = 'rgba(0,200,50,0.4)';
+  for (let y = 0; y < 40; y += 2) {
+    for (let x = 0; x < 40; x += 2) {
+      const p = { x:10*x, y:10*y };
+      sirkel(ctx, p, 2);
+    }
   }
   ctx.stroke()
 }
@@ -223,6 +235,7 @@ function setup() {
   // tegner på bakgrunn
 
   tegnRutenett(ctxBG);
+  tegnSirkler(ctxBG);
 
 
   function visEkstra() {
