@@ -15,8 +15,8 @@ const komponentInfo = {
   resistor: { p: ` h 20 l 2 5  l 4 -10  l 4 10  l 4 -10  l 4 10  l 4 -10  l 2 5 h 16`, l: 60 },
   capacitor: { p: ` h 20 m 0 -15 v 30 m 10 0 v -30 m 0 15 h 20`, l: 50 },
   spole: { p: ` h 10 t 2 -5 , 4 0 , 4 0, 4 0, 4 0, 4 0, 4 0, 4 0 l 2 5 h 10`, l: 50 },
-  jord: { p: ` h 20 m 0 -15 v 30 m 5 -25 v 20 m 5 -15 v 10`, l: 50, j:false },
-  plusspol: { p: `h 20`, l: 50},
+  jord: { p: ` h 20 m 0 -15 v 30 m 5 -25 v 20 m 5 -15 v 10`, l: 50, j: false },
+  plusspol: { p: `h 20`, l: 50 },
   ledning: { p: ``, l: 0, j: false },
 }
 
@@ -49,6 +49,10 @@ class Komponent {
 }
 
 class PPol extends Komponent {
+  constructor(p2, verdi) {
+    const pp = { x: p2.x + 20, y: p2.y };
+    super(pp, p2, "plusspol", verdi)
+  }
   tegnDeg(ctx) {
     super.tegnDeg(ctx);
     const { p1, p2, type } = this;
@@ -147,6 +151,11 @@ const p2 = { x: 1, y: 1 };
 let antallPunkt = 0;
 let mustJoin = false;  // true dersom vi må velge et eksisterende punkt
 
+function knownPoint(p) {
+  return komponentListe.some(k => k.p1.x === p.x && k.p1.y === p.y ||
+    k.p2.x === p.x && k.p2.y === p.y);
+}
+
 /**
  * @param {MouseEvent} e
  */
@@ -156,19 +165,12 @@ function registrerPunkt(e) {
   const { offsetX, offsetY } = e;
   p1.x = Math.round(offsetX / 10) * 10;
   p1.y = Math.round(offsetY / 10) * 10;
-  if (antallPunkt === 0 && mustJoin) {
-    // dette er første  punkt og vi MÅ koble til punkt
-    // som finnes fra før
-    // går gjennom alle komponenter og sjekker om p2 finnes i lista
-    if (!komponentListe.some(k => k.p1.x === p1.x && k.p1.y === p1.y ||
-      k.p2.x === p1.x && k.p2.y === p1.y)) {
-        return;  // ignore this point
-    }
-  }
   antallPunkt++;
-  if (antallPunkt === 2) {
-    const event = new Event("toPunkt");
-    dispatchEvent(event);
+  if (antallPunkt > 1) {
+    if (! mustJoin || (knownPoint(p1) || knownPoint(p2))) {
+      const event = new Event("toPunkt");
+      dispatchEvent(event);
+    }
     antallPunkt = 0;
   }
 }
@@ -242,7 +244,8 @@ function setup() {
     // spesialtilfelle for plusspol - lager da en PPol som er
     // en utvida komponent
     const komp = (type === 'plusspol') ?
-      new PPol(p1, p2, type, verdi) : new Komponent(p1, p2, type, verdi);
+      new PPol(p2, verdi)
+      : new Komponent(p1, p2, type, verdi);
     komponentListe.push(komp);
     tegnListe();
     selType.innerHTML = komponentNavn.map(e => `<option>${e}</option>`).join("");
