@@ -1,5 +1,10 @@
 // @ts-check
 
+// lagrer alle komponentene som tegnes
+const komponentListe = [];
+const π = Math.PI; // kjekk å ha
+
+
 class Punkt {
   /**
    * @param {number} x
@@ -8,6 +13,19 @@ class Punkt {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+  }
+}
+
+class Units {
+  static typelist = 'lead,resistor,capacitor,inductor'.split(",");
+  static OHM = 'Ω';
+  static VOLT = 'V';
+  static AMPERE = 'A';
+  static FARAD = 'F';
+  static INDUCTANCE = 'H';
+  static typeUnit = {lead:Units.OHM,resistor:Units.OHM,capacitor:Units.FARAD,inductor:Units.INDUCTANCE};
+  static myUnit(type) {
+    return Units.typeUnit[type] ?? '';
   }
 }
 
@@ -21,6 +39,45 @@ const komponentInfo = {
 }
 
 const komponentNavn = Object.keys(komponentInfo);
+
+/**
+ * En komponent har minst to leads/koblinger
+ * Jord og PlussPol har 2
+ * En resistor,cap,spole,diode,ledning,led har 2
+ * En transistor,triac har 3
+ * En IC (integrert krets) har mange, bør være egen klasse trur eg
+ */
+class ElectronicComponent {
+  leads = [];
+  value = 1e-9;      // default er en ledning med lav motstand
+  unit = Units.OHM;  
+  constructor(p1, p2) {
+    // denne koden sørger for at vi kopierer punktene p1,p2
+    // og ikke legger de to objektene inn i lista, da vil lista endre seg
+    // dersom vi endrer p1,p2 senere. Lager et local scope for hver {x,y}
+    {
+      const { x, y } = p1;
+      this.leads.push({ x, y });
+    }
+    {
+      const { x, y } = p2;
+      this.leads.push({ x, y });
+    }
+  }
+}
+
+/**
+ * Komponenter med to poler/leads
+ * resistor,ledning,cap,inductor
+ */
+class DuoLeads extends ElectronicComponent {
+  constructor(p1,p2,type,value = undefined) {
+    super(p1,p2);
+    this.unit = Units.myUnit(type);
+    this.type = type;
+    this.value = value ?? this.value;
+  }
+}
 
 
 class Komponent {
@@ -85,12 +142,6 @@ function tegnKomponent(ctx, p1, p2, startPos, pathCmds, plengde = 50, joinup = t
   ctx.stroke();
   ctx.restore();
 }
-
-const komponentListe = [];
-
-
-
-const π = Math.PI; // kjekk å ha
 
 /**
  * Beregner avstand mellom to punkt a og b
@@ -163,8 +214,8 @@ function registrerPunkt(e) {
   p2.x = p1.x;
   p2.y = p1.y;
   const { offsetX, offsetY } = e;
-  p1.x = Math.round(offsetX / 10) * 10;
-  p1.y = Math.round(offsetY / 10) * 10;
+  p1.x = Math.round(offsetX / 20) * 20;
+  p1.y = Math.round(offsetY / 20) * 20;
   antallPunkt++;
   if (antallPunkt > 1) {
     if (!mustJoin || (knownPoint(p1) || knownPoint(p2))) {
@@ -190,11 +241,13 @@ function tegnRutenett(ctx) {
 
 function tegnSirkler(ctx) {
   ctx.beginPath()
-  ctx.strokeStyle = 'rgba(0,200,50,0.4)';
-  for (let y = 0; y < 40; y += 2) {
-    for (let x = 0; x < 40; x += 2) {
-      const p = { x:10*x, y:10*y };
-      sirkel(ctx, p, 2);
+  for (let y = 2; y < 40; y += 2) {
+    for (let x = 2; x < 40; x += 2) {
+      const p = { x: 10 * x, y: 10 * y };
+      ctx.strokeStyle = 'rgba(0,0,250,0.4)';
+      sirkel(ctx, p, 2.5);
+      ctx.strokeStyle = 'rgb(0,0,0)';
+      sirkel(ctx, p, 0.5);
     }
   }
   ctx.stroke()
@@ -208,19 +261,7 @@ function setup() {
   const lblVolt = document.getElementById("volt");
   const btnAngre = document.getElementById("angre");
   const selType = document.getElementById("type");
-
-  // seltype skal bare vise jord/plusspol ved start
-  selType.innerHTML = "jord,plusspol".split(",").map(e => `<option>${e}</option>`).join("");
-
-  selType.addEventListener("change", visEkstra);
-  btnAngre.addEventListener("click", undoLast);
-
-  function undoLast() {
-    if (komponentListe.length > 0) {
-      komponentListe.pop();
-      tegnListe();
-    }
-  }
+  const btnLagre = document.getElementById("lagre");
 
   const canvas =
     /** @type {HTMLCanvasElement} */
@@ -233,6 +274,46 @@ function setup() {
 
   const ctxBG = bg.getContext("2d");
   // tegner på bakgrunn
+
+
+  btnLagre.addEventListener("click", lagre);
+
+  function lagre() {
+    const strKomp = JSON.stringify(komponentListe);
+    localStorage.setItem("komp", strKomp);
+  }
+
+  // seltype skal bare vise jord/plusspol ved start
+  selType.innerHTML = "jord,plusspol".split(",").map(e => `<option>${e}</option>`).join("");
+
+
+  if (localStorage.getItem("komp")) {
+    const str = localStorage.getItem("komp");
+    const nykomponentListe = JSON.parse(str);
+    for (const komp of nykomponentListe) {
+      const { p1, p2, type, verdi } = komp;
+      let nykomp;
+      if (type === "plusspol") {
+        nykomp = new PPol(p2, verdi);
+      } else {
+        nykomp = new Komponent(p1, p2, type, verdi);
+      }
+      komponentListe.push(nykomp);
+    }
+    tegnListe();
+    mustJoin = true;
+    selType.innerHTML = komponentNavn.map(e => `<option>${e}</option>`).join("");
+  }
+
+  selType.addEventListener("change", visEkstra);
+  btnAngre.addEventListener("click", undoLast);
+
+  function undoLast() {
+    if (komponentListe.length > 0) {
+      komponentListe.pop();
+      tegnListe();
+    }
+  }
 
   tegnRutenett(ctxBG);
   tegnSirkler(ctxBG);
