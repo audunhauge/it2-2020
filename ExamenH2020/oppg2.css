@@ -6,6 +6,10 @@
   med grid er det ikke så rett fram
 */
 
+div.editing {
+    background-color: green !important;
+}
+
 #oversikt {
     width: 35rem;
     border: 1px lightblue solid;
