@@ -6,6 +6,12 @@
   med grid er det ikke så rett fram
 */
 
+#figur {
+    width: 500px;
+    height: 500px;
+    border: solid gray 1px;
+}
+
 div.editing {
     background-color: green !important;
 }

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oppg2</title>
-    <script src="oppg2b.js"></script>
+    <script src="oppg2c.js"></script>
     <link rel="stylesheet" href="oppg2.css">
 </head>
 <body>
+    <div id="forklaring">Klikk på en rad for å redigere firkant</div>
     <div id="oversikt"></div>
     <div id="gui">
         <div><label>Bunnlinje<input type="number" id="bunn"></label></div>
@@ -16,6 +17,9 @@
         <div><label>Forskyvning<input type="number" id="skyv"></label></div>
         
         <div><button id="lagre">Lagre figur</button></div>
+    </div>
+    <div>
+        <canvas width=500 height=500 id="figur"></canvas>
     </div>
     <script>
         setup();
