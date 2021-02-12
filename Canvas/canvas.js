@@ -120,15 +120,13 @@ function registrerPunkt(e) {
 function tegnRutenett(ctx) {
   ctx.beginPath()
   ctx.strokeStyle = 'rgba(0,0,200,0.1)';
-  /*
-  lag en for løkke i=0..39
-    // tegn en horisontal linje
-    move to (0, 10*i)
-    line to (400, 10*i)
-    // tegn en vertikal linje
-    move to (10*i,0)
-    line to (10*i,400)
-*/
+  for (let i=0; i<40;i++) {
+    const i10 = 10*i;
+    ctx.moveTo(0, i10)
+    ctx.lineTo (400, i10)
+    ctx.moveTo (i10,0)
+    ctx.lineTo (i10,400)
+  }
   ctx.stroke()
 }
 
