@@ -1,0 +1,48 @@
+/*
+  Ser i etterkant at en tabell er enklere.
+  Men har investert såpass i denne løsningen
+  at det blir for kostbart (tidsmessig) å skifte.
+  Med tabell er kantene mellom cellene enkelt,
+  med grid er det ikke så rett fram
+*/
+
+#figur {
+    width: 500px;
+    height: 500px;
+    border: solid gray 1px;
+}
+
+div.editing {
+    background-color: green !important;
+}
+
+#oversikt {
+    width: 35rem;
+    border: 1px lightblue solid;
+}
+#oversikt > div {
+    display: grid;
+    grid-template-columns: 6rem repeat(5, 6rem);
+    
+}
+
+#oversikt > div > div {
+    margin:5px;
+    justify-self: stretch;
+}
+
+#oversikt > div > div:nth-child(1) {
+   width: 8rem;
+}
+
+#oversikt > div:nth-child(2n+2) {
+    background-color: rgb(196, 217, 255);
+}
+#oversikt > div:nth-child(1) {
+    background-color: blue;
+    color: white;
+}
+
+#oversikt > div div:nth-child(n+2) {
+   text-align: center;
+}
