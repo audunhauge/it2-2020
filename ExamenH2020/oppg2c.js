@@ -1,4 +1,6 @@
 // @ts-check
+let s = new Set()
+s.k
 
 /**
  * @typedef { [string,number,number,number,number,number]} Kvadrat
