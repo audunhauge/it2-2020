@@ -17,7 +17,11 @@ div.month  div.dager > span {
     text-align: right;
     width: 20px;
 }
-div.month  div.ukedager > span {
-    display: inline-block;
-    padding-left:2px;
+div.month  div.dager > span:nth-child(7n) {
+   color:red;
+}
+
+#kalender {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
 }

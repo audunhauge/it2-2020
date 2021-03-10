@@ -8,6 +8,7 @@ const mNavn = ("Januar,Februar,Mars,April,Mai,Juni,Juli,August,"
                + "September,Oktober,November,Desember").split(",");
 
 function setup() {
+    
     const py = document.getElementById("py");
     const ny = document.getElementById("ny");
     const lblYear = document.getElementById("year");
@@ -25,9 +26,15 @@ function setup() {
         lblYear.innerHTML = String(year);
     }
 
-    const divTest = document.getElementById("test");
-    drawMonth(1990,0,divTest);
-    drawMonth(1990,1,divTest);
+    const divMndr = document.querySelectorAll(".mnd");
+
+    let mnr = 0;
+    divMndr.forEach( (div) => {
+        drawMonth(1990,mnr,div);
+        mnr++;
+    })
+
+    
    
 }
 
