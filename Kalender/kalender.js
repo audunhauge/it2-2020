@@ -4,6 +4,8 @@
 let year = 2021;
 let month = 2;
 
+const mNavn = "Jan,Feb,Mar,Apr,Mai,Jun,Jul,Aug,Sep,Okt,Nov,Des".split(",");
+
 function setup() {
     const py = document.getElementById("py");
     const ny = document.getElementById("ny");
@@ -18,6 +20,8 @@ function setup() {
 
     pm.addEventListener("click", prevMonth);
     nm.addEventListener("click", nextMonth);
+
+    lblMonth.innerHTML = mNavn[month]
 
     function prevYear() {
         year -= 1;
@@ -35,10 +39,11 @@ function setup() {
         // ellers reduser month med 1
         if (month === 0) {
             month = 11;
+            prevYear();
         } else {
             month -= 1;
         }
-        lblMonth.innerHTML = String(month);
+        lblMonth.innerHTML = mNavn[month];
     }
 
     function nextMonth() {
@@ -51,7 +56,23 @@ function setup() {
         } else {
             month += 1;
         }
-        lblMonth.innerHTML = String(month);
+        lblMonth.innerHTML = mNavn[month]
     }
 
 }
+
+
+/**
+ * Skal tegne en måned gitt år,mnd og
+ * en div til å rendre i
+ * @param {number} y Gjeldende år
+ * @param {number} m 0..11 måned-nr
+ * @param {HTMLElement} div Div hvor måned skal rendres
+ */
+function drawMonth(y,m,div) {
+    div.innerHTML = "";
+    let s = "";
+    
+    div.innerHTML = s;
+}
+
