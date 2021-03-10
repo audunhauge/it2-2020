@@ -26,7 +26,8 @@ function setup() {
     }
 
     const divTest = document.getElementById("test");
-    drawMonth(1990,11,divTest);
+    drawMonth(1990,0,divTest);
+    drawMonth(1990,1,divTest);
    
 }
 
