@@ -4,7 +4,8 @@
 let year = 2021;
 let month = 2;
 
-const mNavn = "Jan,Feb,Mar,Apr,Mai,Jun,Jul,Aug,Sep,Okt,Nov,Des".split(",");
+const mNavn = ("Januar,Februar,Mars,April,Mai,Juni,Juli,August,"
+               + "September,Oktober,November,Desember").split(",");
 
 function setup() {
     const py = document.getElementById("py");
@@ -25,7 +26,7 @@ function setup() {
     }
 
     const divTest = document.getElementById("test");
-    drawMonth(1990,5,divTest);
+    drawMonth(1990,11,divTest);
    
 }
 
@@ -39,8 +40,28 @@ function setup() {
  */
 function drawMonth(y,m,div) {
     div.innerHTML = "";
+    div.classList.add("month");
+    let dagene = "";
+    for (let i=1; i<32; i++) {
+        dagene += `<span>${i}</span>`;
+    }
     let s = "";
-    s += `<div>${mNavn[m]} </div>`;
+    s += `
+    <fieldset>
+       <legend>${mNavn[m]} </legend>
+       <div class="ukedager">
+         <span>Ma</span> 
+         <span>Ti</span> 
+         <span>On</span> 
+         <span>To</span> 
+         <span>Fr</span> 
+         <span>Lø</span> 
+         <span>Sø</span>
+       </div>
+       <div class="dager">
+         ${dagene}
+       </div>
+    </fieldset>`;
     div.innerHTML = s;
 }
 
