@@ -11,17 +11,8 @@ function setup() {
     const ny = document.getElementById("ny");
     const lblYear = document.getElementById("year");
 
-    const pm = document.getElementById("pm");
-    const nm = document.getElementById("nm");
-    const lblMonth = document.getElementById("month");
-
     py.addEventListener("click", prevYear);
     ny.addEventListener("click", nextYear);
-
-    pm.addEventListener("click", prevMonth);
-    nm.addEventListener("click", nextMonth);
-
-    lblMonth.innerHTML = mNavn[month]
 
     function prevYear() {
         year -= 1;
@@ -33,32 +24,9 @@ function setup() {
         lblYear.innerHTML = String(year);
     }
 
-    function prevMonth() {
-        // dersom month er 0 
-        // da skal month bli 11
-        // ellers reduser month med 1
-        if (month === 0) {
-            month = 11;
-            prevYear();
-        } else {
-            month -= 1;
-        }
-        lblMonth.innerHTML = mNavn[month];
-    }
-
-    function nextMonth() {
-        // dersom month er 11
-        // da skal den bli 0
-        // ellers øk med 1
-        if (month === 11) {
-            month = 0;
-            nextYear();
-        } else {
-            month += 1;
-        }
-        lblMonth.innerHTML = mNavn[month]
-    }
-
+    const divTest = document.getElementById("test");
+    drawMonth(1990,5,divTest);
+   
 }
 
 
@@ -72,7 +40,7 @@ function setup() {
 function drawMonth(y,m,div) {
     div.innerHTML = "";
     let s = "";
-    
+    s += `<div>${mNavn[m]} </div>`;
     div.innerHTML = s;
 }
 
