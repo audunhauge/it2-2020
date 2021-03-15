@@ -1,17 +1,24 @@
 div.month {
     width: 16rem;
     min-height: 10rem;
-    background-color:papayawhip;
+    background-color:whitesmoke;
+    margin:0.5rem;
 }
 
 div.month > fieldset {
     min-height: 10rem;
 }
+
 div.month  div.dager,
 div.month  div.ukedager {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
 }
+
+fieldset div + div {
+    margin-top: 4px;
+}
+
 div.month  div.dager > span {
     display: inline-block;
     text-align: right;

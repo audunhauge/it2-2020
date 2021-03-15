@@ -50,7 +50,7 @@ function drawMonth(y,m,div) {
     div.innerHTML = "";
     div.classList.add("month");
     let dagene = "";
-    for (let i=1; i<32; i++) {
+    for (let i=1; i<42; i++) {
         dagene += `<span>${i}</span>`;
     }
     let s = "";
