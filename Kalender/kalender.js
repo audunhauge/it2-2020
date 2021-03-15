@@ -33,9 +33,31 @@ function setup() {
         drawMonth(1990,mnr,div);
         mnr++;
     })
+}
 
-    
-   
+/**
+ * Skal returnere 0 eller 1 avhengig om det
+ * er skuddår og m === 1 (februar)
+ * @param {number} y år
+ * @param {number} m måned
+ * @returns {number} 0|1
+ */
+function skudd(y,m) {
+   let s = 0;
+   // noe kode
+   return s;
+}
+
+/**
+ * Returnere antall dager for gitt y,m
+ * @param {number} y år
+ * @param {number} m måned
+ * @returns {number} antall dager i gitt måned
+ */
+function dagerImaaned(y,m) {
+    const dager = [31,28,31,30,31, ]
+    // skudd
+    return 31;
 }
 
 
