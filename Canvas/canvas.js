@@ -229,26 +229,12 @@ function registrerPunkt(e) {
 function tegnRutenett(ctx) {
   ctx.beginPath()
   ctx.strokeStyle = 'rgba(0,0,200,0.1)';
-  for (let i = 0; i < 40; i++) {
-    const i10 = 10 * i;
-    ctx.moveTo(0, i10);
-    ctx.lineTo(400, i10);
-    ctx.moveTo(i10, 0);
-    ctx.lineTo(i10, 400);
-  }
-  ctx.stroke()
-}
-
-function tegnSirkler(ctx) {
-  ctx.beginPath()
-  for (let y = 2; y < 40; y += 2) {
-    for (let x = 2; x < 40; x += 2) {
-      const p = { x: 10 * x, y: 10 * y };
-      ctx.strokeStyle = 'rgba(0,0,250,0.4)';
-      sirkel(ctx, p, 2.5);
-      ctx.strokeStyle = 'rgb(0,0,0)';
-      sirkel(ctx, p, 0.5);
-    }
+  for (let i=0; i<40;i++) {
+    const i10 = 10*i;
+    ctx.moveTo(0, i10)
+    ctx.lineTo (400, i10)
+    ctx.moveTo (i10,0)
+    ctx.lineTo (i10,400)
   }
   ctx.stroke()
 }
