@@ -1,6 +1,5 @@
 div.month {
     width: 16rem;
-<<<<<<< HEAD
     margin: 0.2rem;
 }
 
@@ -8,15 +7,10 @@ div.month  legend {
     color: blue;
     font-size: 1.2rem;
     text-align: center;
-=======
-    min-height: 10rem;
-    background-color:whitesmoke;
-    margin:0.5rem;
->>>>>>> 1873ccf53ccdddbe08e6f505df46a2d6669d5761
 }
 
 div.month > fieldset {
-    min-height: 9rem;
+    min-height: 10rem;
     border: green 2px solid;
 }
 
