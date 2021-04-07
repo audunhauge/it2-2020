@@ -24,8 +24,9 @@ div.month  div.ukedager > span {
 }
 div.month  div.dager > span {
     display: inline-block;
-    text-align: right;
+    text-align: center;
     width: 20px;
+    border-radius: 50%;
 }
 div.month  div.dager > span:nth-child(7n) {
    color:red;
@@ -37,5 +38,16 @@ div.month  div.dager > span:nth-child(7n) {
 }
 
 span.special {
-    text-shadow: 0 0 5px yellow;
+    box-shadow: 0 0 0 1px red;
+    background-color: rgba(250,0,0,0.12);
+}
+
+div.month  div.dager > span.today {
+    outline: solid blue 1px;
+    border-radius: 0;
+}
+
+div.month  div.dager > span.note {
+   box-shadow: inset 0 0 4px green;
+   border-radius: 0;
 }

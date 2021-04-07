@@ -1,16 +1,40 @@
 // @ts-check
 
+/**
+ * A date object {y,m,d}
+ * @typedef { {y:number,m:number,d:number} } YMDate
+ */
 
-let year = 2021;
-let month = 2;
+
+
+/**
+ * Create a key given a date
+ * @param {YMDate} date
+ */
+const makeKey = date => { let { y, m, d } = date; return [y, m, d].join("-") }
+
+let notes;  // global slik at eventlistener kan oppdatere
+let special; // also bcs eventlistener
+
+const now = new Date();
+
+let year = now.getFullYear();
+let month = now.getMonth();
+let day = now.getDate();
+
+const today = { y: year, m: month, d: day, extra: "today" };  // brukes til å markere dagens dato
 
 const mNavn = ("Januar,Februar,Mars,April,Mai,Juni,Juli,August,"
     + "September,Oktober,November,Desember").split(",");
 
 function setup() {
 
+    // disse linjene skal kanskje flyttes ut av funksjonen
+
+
     const py = document.getElementById("py");
     const ny = document.getElementById("ny");
+    const kalender = document.getElementById("kalender");
     const lblYear = document.getElementById("year");
 
     py.addEventListener("click", prevYear);
@@ -19,24 +43,91 @@ function setup() {
     function prevYear() {
         year -= 1;
         lblYear.innerHTML = String(year);
-        showYear(divMndr);
+        showYear(year, divMndr);
     }
 
     function nextYear() {
         year += 1;
         lblYear.innerHTML = String(year);
-        showYear(divMndr);
+        showYear(year, divMndr);
     }
 
     const divMndr = document.querySelectorAll(".mnd");
-    showYear(divMndr);
-    
+    kalender.addEventListener("click", takeNotes);
+    showYear(year, divMndr);
 }
 
-function showYear(divMndr) {
+/**
+ * En fake løsning som lagrer teksten Heisan
+ * ved klikk på en dato
+ * @param {MouseEvent} e 
+ */
+function takeNotes(e) {
+    let p = /** @type {HTMLElement} */ (e.target);
+    let d = +p.innerHTML;
+    while (p && ! p.classList.contains("mnd")) {
+        p = p.parentNode;
+    }
+    if (p.dataset.m && d > 0) {
+        const m = +p.dataset.m;
+        const key = makeKey({y:year,m,d});
+        localStorage.setItem(key,"Heisan");
+        notes[m][d] = "Heisan";
+        drawMonth(year, m, p, special, notes[m]);
+    }
+}
+
+/**
+ * Gir tilbake array med alle notater for y
+ * @param {number} y
+ * @returns { String[][] } notes
+ */
+function getNotes(y) {
+    const antall = localStorage.length;
+    // 32 dager slik at vi kan slå opp på 1..31 for dagene, 0 ubrukt
+    const notes = new Array(12).fill(0).map(e => new Array(32).fill(""));
+    // fill(new Array(32)) vil lage 12 alias til en array(32)
+    if (antall > 356) {
+        // kjappere å prøve alle datoer
+        // genererer en del umulige datoer - ingen problemo
+        // de blir bare ikke brukt
+        for (let m = 1; m < 13; m++) {
+            for (let d = 1; d < 33; d++) {
+                const key = makeKey({ y, m, d });
+                notes[m][d] = localStorage.getItem(key);
+            }
+        }
+    } else {
+        for (let i = 0; i < antall; i++) {
+            const key = localStorage.key(i);
+            if (key.startsWith(String(y))) {
+                const [_,m,d] = key.split('-');
+                notes[m][d] = localStorage.getItem(key);
+            }
+        }
+    }
+    return notes;
+}
+
+function showYear(y, divMndr) {
+    // henter ut notater for dette året
+    notes = getNotes(y);
+    special = [];
+    const east = easter(y);
+    special.push({ y, m: 4, d: 17 }); // 17.mai
+    special.push({ y, m: 11, d: 24 }); // Julekveld
+    special.push({ y, m: 4, d: 1 }); // 1.mai
+    special.push({ y, m: 0, d: 1 }); // nyttårsdag
+    special.push(east);    // 1. påskedag
+    special.push(addDate(east, 1))  // 2.påskedag
+    special.push(addDate(east, -2))  // langfredag
+    special.push(addDate(east, -3))  // skjærtorsdag
+    special.push(addDate(addDate(east, 25), 24))  // 1.pinse
+    special.push(addDate(addDate(east, 25), 25))  // 2.pinse
+    // addDate virker bare for maks ~ 30 dager
     let mnr = 0;
     divMndr.forEach((div) => {
-        drawMonth(year, mnr, div);
+        drawMonth(year, mnr, div, special, notes[mnr]);
         mnr++;
     })
 }
@@ -64,6 +155,7 @@ function startDay(y, m) {
  * Beregner påske for gitt år
  * Endra litt i forhold til quiz - måned starter på 0
  * @param {number} y 
+ * @returns {YMDate} 1. påskedag
  */
 function easter(y) {
     const a = y % 19;
@@ -76,10 +168,10 @@ function easter(y) {
     const d = Math.floor(19 * a + m) % 30;
     const e = Math.floor(2 * b + 4 * c + 6 * d + n) % 7;
     const days = Math.floor(22 + d + e);
-    if (d === 29 && e === 6) return { m: 3, d: 19 };
-    if (d === 28 && e === 6) return { m: 3, d: 18 };
-    if (days > 31) return { m: 3, d: days - 31 };
-    return { m: 2, d: days };
+    if (d === 29 && e === 6) return { y, m: 3, d: 19 };
+    if (d === 28 && e === 6) return { y, m: 3, d: 18 };
+    if (days > 31) return { y, m: 3, d: days - 31 };
+    return { y, m: 2, d: days };
 }
 
 /**
@@ -89,7 +181,7 @@ function easter(y) {
  * Antar at i januar går vi ikke mer tilbake enn til 1. januar
  * Antar at i desember går vi ikke lenger fram enn til 31. des
  * Kan da gjøre en del forenklinger
- * @param { {y:number,m:number,d:number} } dato
+ * @param {YMDate} dato
  * @param {number} x
  * @returns { {y:number,m:number,d:number} } ny dato
  */
@@ -115,16 +207,7 @@ function addDate({ y, m, d }, x) {
  * @param {number} m 0..11 måned-nr
  * @param {HTMLElement} div Div hvor måned skal rendres
  */
-function drawMonth(y, m, div) {
-    // disse linjene skal kanskje flyttes ut av funksjonen
-    const special = [];  // liste over datoer som skal markeres
-    const east = easter(y);
-    special.push({ y, m: 4, d: 17 }); // 17.mai
-    special.push(east);    // 1. påskedag
-    special.push(addDate(east, 1))  // 2.påskedag
-    special.push(addDate(east, -2))  // langfredag
-    special.push(addDate(east, -3))  // skjærtorsdag
-
+function drawMonth(y, m, div, special, notes) {
     // finner special days for denne måned
     const notableThisMonth = special.filter(event => event.m === m);
     const specialDays = notableThisMonth.map(event => event.d);
@@ -137,9 +220,17 @@ function drawMonth(y, m, div) {
     let dagene = "";
     for (let i = 1; i < 42; i++) {
         const day = i - start;
-        const marked = (specialDays.includes(day)) ? 'class="special"' : "";
+        let marked = (specialDays.includes(day))
+            ? "special"
+            : "";
+        if (today.y === y && today.m === m && today.d === day) {
+            marked += " today";
+        }
+        if (notes[day]) {
+            marked += " note";
+        }
         const txt = (day > 0 && day <= antall) ? String(day) : "";
-        dagene += `<span ${marked}>${txt}</span>`;
+        dagene += `<span class="${marked}">${txt}</span>`;
     }
     let s = "";
     s += `
@@ -161,3 +252,63 @@ function drawMonth(y, m, div) {
     div.innerHTML = s;
 }
 
+/**
+ * Lokalstorage er ikke godt egna som database, men vi kan få
+ * til en del brukbare løsninger allikevel
+ * 
+ * Lagrer alle notater med  y-m-d som nøkkel
+ * Lagrer index-2021 med liste over alle keys for det året
+ * 
+ * Ved visning av et år:
+ *   hent index-xxxx for det året
+ *   .split(",") og loop gjennom nøklene og hent data
+ *   PRO
+ *     slipper 365 * getItem
+ *   CONTRA
+ *     må oppdatere to verdier ved hver lagring
+ *     setItem("y-m-d", notat)
+ *     setItem("index-y", notatliste.join(",") )
+ *     notatliste er en array over alle keys for dette året
+ *     Tilsvarende ved sletting må begge oppdateres.
+ * 
+ * ALTERNATIVT
+ *   bruker en løkke til å gå gjennom alle keys
+ *   lager en liste over de som gjelder for dette året
+ *   CONTRA
+ *     n * key(i) , n vokser for hvert nye notat
+ * 
+ * ALTERNATIVT
+ *    dersom localStorage.length < 365
+ *       loop gjennom alle keys
+ *    ELLERS
+ *       loop gjennom 365 mulige keys for gjeldende år
+ *    Dersom dette er kjapt nok er de andre løsningen OVERKILL
+ * 
+ *  VELGER SISTE LØSNING
+ */
+
+
+/**
+ * Lagrer tekst på en gitt dato
+ * Dersom tekst er "" da slettes notatet
+ * @param {YMDate} dato
+ * @param {string} text
+ */
+function lagreTextFor(dato, text) {
+    const key = makeKey(dato);
+    if (text === "") {
+        return localStorage.removeItem(key);
+    }
+    localStorage.setItem(key, text);
+}
+
+/**
+ * Henter tekst fra en gitt dato
+ * Returnerer "" dersom ingenting er lagra
+ * @param {YMDate} dato
+ * @returns {string} text
+ */
+function hentTextFor(dato) {
+    const key = makeKey(dato);
+    return localStorage.getItem(key) || '';
+}
