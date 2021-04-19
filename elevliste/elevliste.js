@@ -30,27 +30,38 @@ function setup() {
     btnFinn.addEventListener("click", finnElev);
 
     function finnElev() {
-        divFunnet.innerHTML = "";
-        // @ts-ignore
         const navn = inpLetefelt.value;
+        const elev = _finnElev(navn);
+        if (elev) {
+            divFunnet.innerHTML =
+                elev.fornavn + " "
+                + elev.adresse + "<br>";
+        }
+    }
+
+    /**
+     * Søker etter elev med .navn === navn
+     * @param {string} navn
+     * @returns {null|object}  null dersom ingen funnet
+     */
+    function _finnElev(navn) {
         const antall = elevListe.length;
         for (let i = 0; i < antall; i += 1) {
             const elev = elevListe[i];
             if (elev.etternavn.includes(navn)) {
-                divFunnet.innerHTML += 
-                elev.fornavn + " " 
-                + elev.adresse + "<br>";
-                // break;
+                return elev;
             }
         }
+        return null;
     }
 
     function lagreElev() {
-        const fornavn =  inpFornavn.value;
+        const fornavn = inpFornavn.value;
         const etternavn = inpEtternavn.value;
         const adresse = inpAdresse.value;
         const klasse = inpKlasse.value;
         const kontaktlerar = inpKontaktlerar.value;
+        // må ha minst gyldig fornavn
         if (fornavn === "") {
             alert("Skriv ett gyldig navn");
             return;
@@ -65,9 +76,13 @@ function setup() {
         visElever();
     }
 
+    /**
+     * 
+     */
     function visElever() {
         let s = "";
         const antall = elevListe.length;
+        // lager en liste med elever
         for (let i = 0; i < antall; i += 1) {
             const elev = elevListe[i];
             s += elev.fornavn + " " + elev.etternavn + "<br>";

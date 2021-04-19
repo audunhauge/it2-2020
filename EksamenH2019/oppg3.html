@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <select id="muskelgruppe">
+        <option value="">--velg--</option>
+        <option>Armar</option>
+        <option>Skuldrer</option>
+        <option>Bein</option>
+        <option>Rygg</option>
+        <option>Bryst</option>
+    </select>
+    <select id="muskel"></select>
+    <script>
+        const inpGruppe = document.getElementById("muskelgruppe");
+        const inpMuskel = document.getElementById("muskel");
+        const valg = {
+            Armar: [
+                "Bicepscurl med stong",
+                "Fransk press",
+            ],
+            Skuldrer: [
+                "Ståande militærpress",
+                "Sidehev",
+            ],
+            Bein: [
+                "Knebøy",
+                "Leg extension",
+                "Leg curl",
+            ],
+            Rygg: [
+                "Nedtrekk",
+                "Roing",
+            ],
+            Bryst: [
+                "Benkpress",
+                "Flies",
+                "Push up",
+            ],
+        };
+        inpGruppe.addEventListener("change", visNesteSelect);
+        inpMuskel.addEventListener("change", visValg);
+        function visNesteSelect(e) {
+            const valgtGruppe = inpGruppe.value;
+            if (valgtGruppe) {
+                let optionlist = '<option value="">--velg--</option>';
+                const liste = valg[valgtGruppe];
+                for (const verdi of liste) {
+                    optionlist += `<option>${verdi}</option>`;
+                }
+                inpMuskel.innerHTML = optionlist;
+            }
+        }
+        function visValg() {
+            const valgtGruppe = inpGruppe.value;
+            const valgtMuskel = inpMuskel.value;
+            if (valgtMuskel && valgtGruppe) {
+                console.log(valgtGruppe, valgtMuskel);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
