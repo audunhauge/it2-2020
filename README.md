@@ -31,6 +31,9 @@ Da vil du ha siste versjon av all kode fra undervisninge.
    enkelt skjema - vanlig oppg2 på eksamen
  *  **isbre**  
    oppg1 på eksamen - isbre som vokser, planter etterpå  
+ *  **LagreFil**  
+   lagre text til en fil, les inn text fra fil
+
 
 
 

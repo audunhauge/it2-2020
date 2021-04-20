@@ -1,0 +1,8 @@
+#gui {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#gui > div {
+    width: 12rem;
+}
