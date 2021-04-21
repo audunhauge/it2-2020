@@ -14,27 +14,35 @@ export class Test {
     this.alive = true;
     this.msg = "";
     this.val = undefined;
-    this.not = false;
+    if (typeof fu !== 'function') {
+        this.name = this.args[0];
+        this.val = fu;
+        this.args = '';
+    }
   }
 
   get is() {
-    this.msg += " is";
+    this.msg += " is ";
     return this;
   }
   get it() {
-    this.msg += ". It";
+    this.msg += ". It ";
     return this;
   }
 
   a(type) {
     if (!this.alive) return this;
-    if (typeof this.val === type) {
+    let me = this.val ? this.val : this.fu;
+    let builder = me.constructor ? me.constructor.name : "";
+    let mytype = builder || typeof me;
+    if (mytype === type) {
       results.push(
-        PASS + this.name + "(" + this.args + ")" + this.msg + " a " + type
+        PASS + showArgs(this) + this.msg + " a " + type
       );
     } else {
       results.push(
-        FAIL + this.name + "(" + this.args + ")" + this.msg + " not a " + type
+        FAIL + showArgs(this) + this.msg + " not a " + type
+        + ' it is a ' + mytype
       );
     }
   }
@@ -51,11 +59,11 @@ export class Test {
     }
     if (this.fu === val || this.val === val) {
       results.push(
-        PASS + this.name + "(" + this.args + ")" + this.msg + " equal " + val
+        PASS + showArgs(this) + this.msg + " equal " + val
       );
     } else {
       results.push(
-        FAIL + this.name + "(" + this.args + ")" + this.msg + " not equal " + val
+        FAIL + showArgs(this) + this.msg + " not equal " + val + " it is " + this.fu
       );
     }
   }
@@ -71,43 +79,45 @@ export class Test {
 
   looklike(val) {
     if (!this.alive) return this;
-    log(this.fu == val, this, " looks like ", val);
+    log(this.fu == val || this.val == val, this, " looks like ", val);
   }
 
   approx(val, epsilon = Number.EPSILON) {
     if (!this.alive) return this;
-    log(Math.abs(this.fu - val) < epsilon, this, " ≃ ", val + " ±" + epsilon);
+    log(Math.abs(this.fu - val) < epsilon || this.val - val < epsilon, this, " ≃ ", " " + val + " ±" + epsilon);
   }
 
   gt(val) {
     if (!this.alive) return this;
-    log(this.fu > val, this, "<", val);
+    log(this.fu > val || this.val > val, this, " > ", val);
   }
 
   lt(val) {
     if (!this.alive) return this;
-    log(this.fu < val, this, "<", val);
+    log(this.fu < val || this.val < val, this, " < ", val);
   }
 
   have(values) {
     if (!this.alive) return this;
-    let p, present;
+    let p, present, msg;
     if (typeof values === "string") {
       // sjekk om vi har .. expect(fu,1,2).to.have("cells.length").eq(12)
       // values er her "cells.length" - splitter på punktum
       let vlist = values.split(".");
       p = this.fu;
+      msg = " has " + values;
       present = vlist.every(e => p[e] !== undefined ? (p = p[e], true) : false);
     } else {
-      p = this.fu[values];
+      p = this.val[values];
       present = p !== undefined;
+      msg = " has [" + values + "]";  // most likely a numeric index
     }
     if (present) {
-      this.msg += " has [" + values  + "]";
+      this.msg += msg;
       this.val = p;
       return this;
     } else {
-      results.push(FAIL + this.name + "(" + this.args + ") does not have " + values);
+      results.push(FAIL + showArgs(this) + " does not have " + values);
       this.alive = false;
       return this;
     }
@@ -121,14 +131,20 @@ export class Test {
   }
 }
 
+function showArgs(o) {
+  if (o.args)  return o.name + "(" + JSON.stringify(o.args) + ")";
+  return o.name;
+}
+
+
 function log(test, obj, logick, val) {
   if (test) {
     results.push(
-      PASS + obj.name + "(" + obj.args + ")" + logick + obj.msg + val
+      PASS + showArgs(obj) + logick + obj.msg + val
     );
   } else {
     results.push(
-      FAIL + obj.name + "(" + obj.args + ")" + "!" + logick + obj.msg + val
+      FAIL + showArgs(obj) + "!" + logick + obj.msg + val
     );
   }
 }
