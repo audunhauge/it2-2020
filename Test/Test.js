@@ -6,7 +6,7 @@ const FAIL = '<span style="color:red">FAILED</span> ';
 const MSG_ = '<span style="color:blue">';
 const _MSG = '</span> ';
 
-class Test {
+export class Test {
   constructor(fu, args) {
     this.fu = typeof fu === "function" ? fu(...args) : fu;
     this.name = fu.name || typeof fu;
@@ -133,6 +133,6 @@ function log(test, obj, logick, val) {
   }
 }
 
-function expect(fu, ...args) {
+export function expect(fu, ...args) {
   return new Test(fu, args);
 }
