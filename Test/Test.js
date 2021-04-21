@@ -51,10 +51,41 @@ export class Test {
     return this;
   }
 
+  // check if array includes some values
+  includes(list) {
+    if (!this.alive) return this;
+    if (Array.isArray(this.val) && Array.isArray(list)) {
+      const good = list.every(e => this.val.includes(e));
+      if (good) {
+        results.push(
+          PASS + showArgs(this) + this.msg + " includes " + list
+        );
+      } else {
+        results.push(
+          FAIL + showArgs(this) + this.msg + " not includes " + list + " it is " + this.fu
+        );
+      }
+    }
+  }
+
   be(val) {
     if (!this.alive) return this;
     if (this.name === "string") {
       results.push(MSG_ + this.fu + _MSG);
+      return;
+    }
+    if (Array.isArray(this.val)) {
+      for (let i=0; i<val.length; i++) {
+        if (this.val[i] !== val[i]) {
+          results.push(
+            FAIL + showArgs(this) + this.msg + " not equal " + val + " it is " + this.fu
+          );
+          return;
+        }
+      }
+      results.push(
+        PASS + showArgs(this) + this.msg + " equal " + val
+      );
       return;
     }
     if (this.fu === val || this.val === val) {

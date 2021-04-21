@@ -33,6 +33,8 @@ expect(largest2([1,2,3,4]),"largest[1,2,3,4]").to.have(0).eq(3);
 expect(largest2([1,2,-13,0,3.14]),"largest[...]").to.have(1).eq(3.14);
 expect(largest2([1,1,1,4,4]),"largest[...]").to.have(0).eq(4);
 expect(largest2([1,1,1,4,4]),"largest[...]").to.have(1).eq(4);
+expect(largest2([1,1,1,4,5]),"largest [..4,5]").to.includes([4,5])
+expect(largest2([1,1,1,4,5]),"largest [..4,5]").to.be([4,5])
 
 expect(sqrt(2),"sqrt(2)").to.be(1);
 expect((sqrt(-1)).toString(),"sqrt(-1)").to.be("NaN");
