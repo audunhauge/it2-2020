@@ -13,9 +13,9 @@ export class Test {
     this.args = args;
     this.alive = true;
     this.msg = "";
-    this.val = undefined;
+    this.val = this.fu;
     if (typeof fu !== 'function') {
-        this.name = this.args[0];
+        this.name = this.args[0] || this.name;
         this.val = fu;
         this.args = '';
     }
@@ -35,7 +35,7 @@ export class Test {
     let me = this.val ? this.val : this.fu;
     let builder = me.constructor ? me.constructor.name : "";
     let mytype = builder || typeof me;
-    if (mytype === type) {
+    if (mytype.toLowerCase() === type.toLowerCase()) {
       results.push(
         PASS + showArgs(this) + this.msg + " a " + type
       );
@@ -68,6 +68,7 @@ export class Test {
     }
   }
 
+  // top level equality for primitives,Array,Object
   be(val) {
     if (!this.alive) return this;
     if (this.name === "string") {
@@ -75,6 +76,12 @@ export class Test {
       return;
     }
     if (Array.isArray(this.val)) {
+      if (val.length !== this.val.length) {
+        results.push(
+          FAIL + showArgs(this) + this.msg + " not equal " + val + " it is " + this.fu
+        );
+        return;
+      }
       for (let i=0; i<val.length; i++) {
         if (this.val[i] !== val[i]) {
           results.push(
@@ -83,6 +90,33 @@ export class Test {
           return;
         }
       }
+      results.push(
+        PASS + showArgs(this) + this.msg + " equal " + val
+      );
+      return;
+    }
+    if (typeof this.val === "object") {
+      const keys = Object.keys(val);
+      if (keys.length !== Object.keys(this.val).length) {
+        results.push(
+          FAIL + showArgs(this) + this.msg + " not equal " + JSON.stringify(val) + " it is " + JSON.stringify(this.fu)
+        );
+        return;
+      }
+      for (const k of keys) {
+        if (this.val[k] !== val[k]) {
+          results.push(
+            FAIL + showArgs(this) + this.msg + " not equal " + JSON.stringify(val) + " it is " + JSON.stringify(this.fu)
+          );
+          return;
+        }
+      }
+      results.push(
+        PASS + showArgs(this) + this.msg + " equal " + JSON.stringify(val)
+      );
+      return;
+    }
+    if (this.val !== undefined && val !== undefined && this.val.toString() === val.toString()) {
       results.push(
         PASS + showArgs(this) + this.msg + " equal " + val
       );
@@ -178,6 +212,10 @@ function log(test, obj, logick, val) {
       FAIL + showArgs(obj) + "!" + logick + obj.msg + val
     );
   }
+}
+
+export function message(txt) {
+  results.push(txt);
 }
 
 export function expect(fu, ...args) {
