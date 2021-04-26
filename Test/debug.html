@@ -1,18 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h1>Debug</h1>
+    Dette er eksempel på bruk av Test klassen.
+    <ul>
+        <li>Kopier Test.js inn i prosjektmappa
+        <li>Lag en test.js med alle testene
+        <li>exporter alle funksjoner som skal testes fra prosjekt.js
+        <li>importer funksjonene i test.js
+    </ul>
+    For å vise testene tar du med ?test som del av adressen.
+    <p>
+        localhost/index.html?test
+    </p>
+    <p>
+        Dersom denne ikke er med vil Test.js og test.js ikke bli lasta
+    </p>
     <div id="Summary"></div>
 
     <script type="module">
-        import {setup} from './debug.js';
+        import { setup } from './debug.js';
         setup();
+        const queryString = window.location.search;
+        if (queryString.includes("test")) {
+            const { Test } = await import('./test.js');
+            Test.summary("#Summary");
+        }
+
     </script>
 </body>
+
 </html>

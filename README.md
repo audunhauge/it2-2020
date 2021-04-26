@@ -33,6 +33,8 @@ Da vil du ha siste versjon av all kode fra undervisninge.
    oppg1 på eksamen - isbre som vokser, planter etterpå  
  *  **LagreFil**  
    lagre text til en fil, les inn text fra fil
+ *  **Test**  
+  Eksempel på testing av kode
 
 
 

@@ -214,10 +214,6 @@ function log(test, obj, logick, val) {
   }
 }
 
-export function message(txt) {
-  results.push(txt);
-}
-
 export function expect(fu, ...args) {
   return new Test(fu, args);
 }
