@@ -10,7 +10,7 @@ function setup() {
 /**
  * Skal sjekk om dette er en ny hiscore
  * Eller lik forrige hiscore
- * "Hiscore" | "Samme" | ""
+ * "Hiscore" | "Samme" | "" | null (dersom feil)
  * @param {number} score
  * @returns {string | null}
  */
@@ -28,9 +28,9 @@ function harViNyHiScore(score) {
     if (score < max) return "";
     if (score === max) return "samme";
     if (score > max) return "hiscore";
-    return "feil";
+    return null;
 }
 
 
 
-export {setup,harViNyHiScore}
+export {setup,harViNyHiScore, allScores}

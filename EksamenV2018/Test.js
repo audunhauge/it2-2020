@@ -95,7 +95,7 @@ export class Test {
       );
       return;
     }
-    if (typeof this.val === "object") {
+    if (this.val && typeof this.val === "object") {
       const keys = Object.keys(val);
       if (keys.length !== Object.keys(this.val).length) {
         results.push(
@@ -116,7 +116,7 @@ export class Test {
       );
       return;
     }
-    if (this.val !== undefined && val !== undefined && this.val.toString() === val.toString()) {
+    if (this.val !== null && this.val !== undefined && val !== undefined && this.val.toString() === val.toString()) {
       results.push(
         PASS + showArgs(this) + this.msg + " equal " + val
       );
