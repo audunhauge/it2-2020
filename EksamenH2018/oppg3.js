@@ -1,5 +1,19 @@
 // @ts-check
 
+/**
+ * Kortform for document.getElementById
+ * @param {string} id 
+ * @returns {any}
+ */
+const $ = id => document.getElementById(id);
+
+/**
+ * For å slippe røde streker under .value
+ * @param {any} elm 
+ * @returns {string}
+ */
+const getValue = elm => elm.value
+
 const utleie = {
     Granstua: ["Påske"],
     Granbo: ["Jul","Vinterferie"],
@@ -8,13 +22,13 @@ const utleie = {
 }
 
 function setup() {
-    const selHytte = document.getElementById("hyttesel");
-    const divFerie = document.getElementById("ferie");
+    const selHytte = $("hyttesel");
+    const divFerie = $("ferie");
 
     selHytte.addEventListener("change", viseFerie);
 
     function viseFerie() {
-        const hytte = selHytte.value;
+        const hytte = getValue(selHytte);
         const liste = utleie[hytte];
         if (liste) {
             const sel = makeSelect(liste);
