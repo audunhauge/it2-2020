@@ -35,6 +35,9 @@ Da vil du ha siste versjon av all kode fra undervisninge.
    lagre text til en fil, les inn text fra fil
  *  **Test**  
   Eksempel på testing av kode
+*  **Eksamen høst 2019**  
+  To kombobokser som er kobla
+  valget du gjør i den ene påvirker alternativene i den andre
 
 
 

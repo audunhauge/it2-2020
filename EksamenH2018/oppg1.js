@@ -1,13 +1,13 @@
 // @ts-check
 
 function setup() {
-    const divMain = document.getElementById("main");
+    // const divMain = document.getElementById("main");
     const spanPris = document.getElementById("pris");
     const spanAvslag = document.getElementById("avslag");
     const inpDager = (document.getElementById("dager"));
     const inpAlder = (document.getElementById("alder"));
     const btnberegn = document.getElementById("beregn");
-    btnberegn.addEventListener("click", beregnPris);
+    btnberegn.addEventListener("click", beregnPrisForKort);
 
     const StandardPrisVoksen = 200;
     const StandardPrisBarn = 100;
@@ -41,13 +41,25 @@ function setup() {
         }
     }
 
-    function beregnPris() { // @ts-ignore
+    function beregnPrisForKort() { 
+        spanAvslag.innerHTML = "";
+        spanPris.innerHTML = "";// @ts-ignore
+
         const dager = inpDager.valueAsNumber;// @ts-ignore
         const alder = inpAlder.valueAsNumber;
         if (dager > 7) {
             alert("Kan ikke bestille for mer enn en uke");
             return;
         }
+        if (! (dager > 0)) {
+            alert("Må ha gyldig antall dager");
+            return;
+        }
+        if (! (alder >= 0 && alder < 120)) {
+            alert("Må ha gyldig alder");
+            return;
+        }
+
         const pris = beregnPris(alder,dager);
         const prisMedAvslag = beregnAvslag(alder,pris);
         const avslag = pris - prisMedAvslag;
